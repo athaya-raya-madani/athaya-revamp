@@ -14,12 +14,17 @@ const routes = [
         component: () => import( /* webpackChunkName: "index" */ '../views/permohonans/index.vue')
     },
     {
-        path: '/create',
+        path: '/permohonans/create',
         name: 'permohonans.create',
         component: () => import( /* webpackChunkName: "create" */ '../views/permohonans/create.vue')
     },
     {
-        path: '/edit/:id',
+        path: '/permohonans/:id/show',
+        name: 'permohonans.show',
+        component: () => import( /* webpackChunkName: "show" */ '../views/permohonans/show.vue')
+    },
+    {
+        path: '/permohonans/:id/edit',
         name: 'permohonans.edit',
         component: () => import( /* webpackChunkName: "edit" */ '../views/permohonans/edit.vue')
     }

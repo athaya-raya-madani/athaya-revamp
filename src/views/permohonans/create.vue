@@ -32,7 +32,7 @@
     // };
 
     //method "storePost"
-    const storePost = async () => {
+    const storePemohon = async () => {
 
         //init formData
         let formData = new FormData();
@@ -51,10 +51,10 @@
         formData.append("nohp", nohp.value);
 
         //store data with API
-        await api.post('/api/permohonan', formData)
+        await api.post('/api/permohonan/store', formData)
         .then(() => {
             //redirect
-            router.push({ path: "/permohonan" });
+            router.push({ path: "/permohonans" });
         })
         .catch((error) => {
             //assign response error data to state "errors"
@@ -69,7 +69,7 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <form @submit.prevent="storePost()">
+                        <form @submit.prevent="storePemohon()">
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Nama KTP</label>
                                 <input type="text" class="form-control" v-model="namaktp" placeholder="Masukkan Nama sesuai KTP">

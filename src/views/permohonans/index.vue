@@ -19,6 +19,31 @@
     }
   };
 
+  // confirm delete data
+  const confirmDelete = (id) => {
+    const confirmation = window.confirm('Are you sure you want to delete this item?');
+
+    if (confirmation) {
+      // User clicked OK in the confirmation dialog
+      deletePermohonan(id);
+    } else {
+      // User clicked Cancel in the confirmation dialog
+      // Handle accordingly or do nothing
+    }
+  };
+  const deletePermohonan = async (id) => {
+  try {
+    // Delete post with API
+    await api.delete(`/api/permohonan/${id}/delete`);
+
+    // Call method "fetchDataPosts"
+    fetchDataPermohonans();
+    console.log("Delete data berhasil ");
+  } catch (error) {
+    // Handle errors, you might want to log the error or show an alert to the user
+    console.error('Error deleting permohonan:', error);
+  }
+};
   // run hook "onMounted"
   onMounted(() => {
     // call method "fetchDatapermohonans"
@@ -58,7 +83,7 @@
                     <router-link :to="{ name: 'permohonans.edit', params: { id: permohonan.id } }" class="btn btn-sm btn-primary rounded-sm shadow border-0 me-2">
                       EDIT
                     </router-link>
-                    <button class="btn btn-sm btn-danger rounded-sm shadow border-0" @click="deletePermohonan(permohonan.id)">DELETE</button>
+                    <button class="btn btn-sm btn-danger rounded-sm shadow border-0" @click="confirmDelete(permohonan.id)">DELETE</button>
                   </td>
                 </tr>
               </tbody>

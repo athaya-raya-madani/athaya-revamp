@@ -2,8 +2,9 @@
 import axios from 'axios';
 
 const Api = axios.create({
-    //set default endpoint API
+    //set default endpoint API prod
     // baseURL: 'https://athayarayamadani.co.id/kreditpensiun-api/'
+    // default endpoint API local
     baseURL: 'http://localhost:8080/'
 }) 
 
