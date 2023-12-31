@@ -1,44 +1,78 @@
-  //import vue router
 import { createRouter, createWebHistory } from 'vue-router'
 
-//define a routes
-const routes = [
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    { path: '/', redirect: '/dashboard' },
     {
-        path: '/',
-        name: 'home',
-        component: () => import( /* webpackChunkName: "home" */ '../views/home.vue')
+      path: '/',
+      component: () => import('../layouts/default.vue'),
+      children: [
+        {
+          path: 'dashboard',
+          component: () => import('../pages/dashboard.vue'),
+        },
+        {
+          path: 'account-settings',
+          component: () => import('../pages/account-settings.vue'),
+        },
+        {
+          path: 'typography',
+          component: () => import('../pages/typography.vue'),
+        },
+        {
+          path: 'icons',
+          component: () => import('../pages/icons.vue'),
+        },
+        {
+          path: 'cards',
+          component: () => import('../pages/cards.vue'),
+        },
+        {
+          path: 'tables',
+          component: () => import('../pages/tables.vue'),
+        },
+        {
+          path: 'form-layouts',
+          component: () => import('../pages/form-layouts.vue'),
+        },
+        // {
+        //   path: 'form-layouts',
+        //   component: () => import('../pages/permohonanEdit.vue'),
+        // },
+        {
+          path: 'permohonans',
+          component: () => import('../pages/permohonan.vue'),
+        },
+        {
+          path: 'permohonans/:id/edit', name: 'permohonans.edit',
+          component: () => import('../pages/permohonanEdit.vue'),
+        },
+        {
+          path: 'permohonans/create', name: 'permohonans.create',
+          component: () => import('../pages/permohonanCreate.vue'),
+        },
+      ],
     },
     {
-        path: '/login',
-        name: 'login',
-        component: () => import( /* webpackChunkName: "home" */ '../views/auth/login.vue')
+      path: '/',
+      component: () => import('../layouts/blank.vue'),
+      children: [
+        {
+          path: 'login',
+          component: () => import('../pages/login.vue'),
+        },
+        {
+          path: 'register',
+          component: () => import('../pages/register.vue'),
+        },
+        {
+          path: '/:pathMatch(.*)*',
+          component: () => import('../pages/[...all].vue'),
+        },
+      ],
     },
-    {
-        path: '/permohonans',
-        name: 'permohonans.index',
-        component: () => import( /* webpackChunkName: "index" */ '../views/permohonans/index.vue')
-    },
-    {
-        path: '/permohonans/create',
-        name: 'permohonans.create',
-        component: () => import( /* webpackChunkName: "create" */ '../views/permohonans/create.vue')
-    },
-    {
-        path: '/permohonans/:id/show',
-        name: 'permohonans.show',
-        component: () => import( /* webpackChunkName: "show" */ '../views/permohonans/show.vue')
-    },
-    {
-        path: '/permohonans/:id/edit',
-        name: 'permohonans.edit',
-        component: () => import( /* webpackChunkName: "edit" */ '../views/permohonans/edit.vue')
-    }
-]
-
-//create router
-const router = createRouter({ 
-    history: createWebHistory(),
-    routes // <-- routes,
+  ],
 })
 
 export default router
