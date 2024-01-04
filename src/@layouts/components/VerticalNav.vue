@@ -1,5 +1,5 @@
 <script setup>
-import logo from '@images/logo.svg?raw';
+import logo from '@images/arm.svg?raw';
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
 import { useDisplay } from 'vuetify';
 
@@ -59,12 +59,13 @@ const handleNavScroll = evt => {
           class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
         >
           <div
-            class="d-flex"
+            class="d-flex logo-wrapper"
             v-html="logo"
           />
 
-          <h1 class="leading-normal">
-            ARM
+          <h1 class="leading-normal arm-nav text-center">
+            Athyara Raya
+            <br> Madani
           </h1>
         </RouterLink>
       </slot>
@@ -106,7 +107,10 @@ const handleNavScroll = evt => {
   inset-inline-start: 0;
   transition: transform 0.25s ease-in-out, inline-size 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
   will-change: transform, inline-size;
-
+  .logo-wrapper{
+    width: 250px;
+    margin-left: -2em;
+  }
   .nav-header {
     display: flex;
     align-items: center;

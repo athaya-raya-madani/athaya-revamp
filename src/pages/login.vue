@@ -1,45 +1,39 @@
 <script setup>
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
 import logo from '@images/logo.svg?raw';
-    //import ref
-    import { ref } from "vue";
+import { ref } from "vue";
+import { useRouter } from 'vue-router';
+import api from "../api";
 
-    //import router
-    import { useRouter } from 'vue-router';
+const router = useRouter();
 
-    //import api
-    import api from "../api";
+const userid = ref("");
+const password = ref("");
+const errors = ref([]);
 
-    //init router
-    const router = useRouter();
-
-    //define state
-    const userid = ref("");
-    const password = ref("");
-    const errors = ref([]);
-
-    //method "storePost"
-    const storeLogin = async () => {
-        try{
-        //init formData
+const storeLogin = async () => {
+    try {
         let formData = new FormData();
-
-        //assign state value to formData
         formData.append("userid", userid.value);
         formData.append("password", password.value);
 
-        //store data with API
-        const response = await api.post('/api/auth/login', formData)
+        const response = await api.post('/api/auth/login', formData);
         console.log('Login berhasil : ', response);
+
+        // Assuming response.data.token is the token object
+        const token = response.data.token.token;
+
+        // Store the token in local storage
+        localStorage.setItem('token', token);
+
         router.push({ path: "/" });
-        }
-        catch (error) {
+    } catch (error) {
         errors.value = error.response?.data || 'An error occurred while updating data.';
         console.error('Error login data:', error);
-        }
-    };
-const isPasswordVisible = ref(false)
-  
+    }
+};
+
+const isPasswordVisible = ref(false);
 </script>
 
 <template>

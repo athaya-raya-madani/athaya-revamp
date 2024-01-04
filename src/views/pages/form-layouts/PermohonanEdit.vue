@@ -60,9 +60,8 @@ import api from "../../../api";
       formData.append('jeniskelamin', jeniskelamin.value);
       formData.append('alamat', alamat.value);
       formData.append('nohp', nohp.value);
-      formData.append('_method', 'PATCH');
 
-      const pemohon = await api.patch(`/api/permohonan/${route.params.id}/update`, formData);
+      const pemohon = await api.post(`/api/permohonan/${route.params.id}/update`, formData);
 
       console.log('Updated Data:', pemohon.data);
       router.push({
@@ -76,6 +75,7 @@ import api from "../../../api";
   // const checkbox = ref(false)
 
 </script>
+
 
 <template>
   <VForm @submit.prevent="updatePemohon()">

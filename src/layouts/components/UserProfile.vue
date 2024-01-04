@@ -1,5 +1,36 @@
 <script setup>
-import avatar1 from '@images/avatars/avatar-1.png'
+import api from "@/api"; // Update the path based on your project structure
+import avatar1 from '@images/avatars/avatar-1.png';
+
+
+const logout = async () => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      // Handle case where no token is present
+      console.error('Token not found.');
+      return;
+    }
+
+    // Make a request to your logout API endpoint
+    await api.post('/api/auth/logout', null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Clear the token from local storage or any other necessary cleanup
+    localStorage.removeItem('token');
+
+    // Redirect the user to the login page
+    // You may need to use the router or adjust this part based on your navigation setup
+    window.location.href = "/login";
+  } catch (error) {
+    // Handle error, such as displaying an error message
+    console.error('Logout error:', error);
+  }
+};
 </script>
 
 <template>
@@ -119,7 +150,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
               />
             </template>
 
-            <VListItemTitle>Logout</VListItemTitle>
+            <VListItemTitle @click="logout()">Logout</VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>

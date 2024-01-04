@@ -114,7 +114,7 @@
             <VBtn :to="{ name: 'permohonans.edit', params: { id: permohonan.id } }" class=" v-btn btn-sm bg-warning rounded-sm shadow border-0 me-2">
                       EDIT
             </VBtn>
-            <VBtn @click="confirmDelete(permohonan.id)" class="bg-danger">Delete</VBtn>
+            <!-- <VBtn @click="confirmDelete(permohonan.id)" class="bg-danger">Delete</VBtn> -->
           </div>
         </td>
       </tr>

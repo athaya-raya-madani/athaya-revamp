@@ -71,12 +71,35 @@ export default defineComponent({
 @use "@configured-variables" as variables;
 @use "@layouts/styles/placeholders";
 @use "@layouts/styles/mixins";
-.layout-vertical-nav, .nav-header h1{
-  background-color: #23395D !important;
-  color: #FFFFFF !important;
-  .router-link-active .router-link-exact-active, span{
-    color: #FFFFFF !important;
+.v-theme--dark{
+  
+  .logo-wrapper > svg{
+    display: none;
   }
+  .arm-nav{
+    color: #FFAC50;
+    margin: 2em 0 2em -8em;
+    // font-size: xx-large;
+  }
+
+  .layout-vertical-nav, .nav-header{
+    background-color: #23395D !important;
+    color: #FFAC50 !important;
+  }
+  
+}
+.v-application.v-theme--dark .layout-nav-type-vertical .layout-vertical-nav .nav-link .router-link-exact-active{
+    color: #FFFFFF !important;
+
+  }
+
+.layout-vertical-nav{
+  background-color: #FFFFFF !important;
+  color: #23395D !important;
+}
+.layout-nav-type-vertical .layout-vertical-nav .nav-link > .router-link-exact-active{
+  color: #FFAC50 !important;
+
 }
 .layout-wrapper.layout-nav-type-vertical {
   // TODO(v2): Check why we need height in vertical nav & min-height in horizontal nav
