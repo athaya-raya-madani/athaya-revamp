@@ -20,30 +20,30 @@
   };
 
   // confirm delete data
-  const confirmDelete = (id) => {
-    const confirmation = window.confirm('Are you sure you want to delete this item?');
+  // const confirmDelete = (id) => {
+  //   const confirmation = window.confirm('Are you sure you want to delete this item?');
 
-    if (confirmation) {
-      // User clicked OK in the confirmation dialog
-      deletePermohonan(id);
-    } else {
-      // User clicked Cancel in the confirmation dialog
-      // Handle accordingly or do nothing
-    }
-  };
-  const deletePermohonan = async (id) => {
-  try {
-    // Delete post with API
-    await api.delete(`/api/permohonan/${id}/delete`);
+  //   if (confirmation) {
+  //     // User clicked OK in the confirmation dialog
+  //     deletePermohonan(id);
+  //   } else {
+  //     // User clicked Cancel in the confirmation dialog
+  //     // Handle accordingly or do nothing
+  //   }
+  // };
+//   const deletePermohonan = async (id) => {
+//   try {
+//     // Delete post with API
+//     await api.delete(`/api/permohonan/${id}/delete`);
 
-    // Call method "fetchDataPosts"
-    fetchDataPermohonans();
-    console.log("Delete data berhasil ");
-  } catch (error) {
-    // Handle errors, you might want to log the error or show an alert to the user
-    console.error('Error deleting permohonan:', error);
-  }
-};
+//     // Call method "fetchDataPosts"
+//     fetchDataPermohonans();
+//     console.log("Delete data berhasil ");
+//   } catch (error) {
+//     // Handle errors, you might want to log the error or show an alert to the user
+//     console.error('Error deleting permohonan:', error);
+//   }
+// };
   // run hook "onMounted"
   onMounted(() => {
     // call method "fetchDatapermohonans"

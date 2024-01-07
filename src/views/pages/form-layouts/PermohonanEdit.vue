@@ -39,9 +39,9 @@ import api from "../../../api";
       alamat.value = data.alamat;
       nohp.value = data.nohp;
 
-      console.log('Fetched data:', data);
+      console.log('Fetched data berhasil');
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching data');
     }
   });
 

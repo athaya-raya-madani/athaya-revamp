@@ -1,6 +1,6 @@
 <script setup>
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
 import logo from '@images/arm.svg?raw';
+import loginBanner from '@images/login-banner.svg?raw';
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
 import api from "../../api";
@@ -18,7 +18,7 @@ const storeLogin = async () => {
         formData.append("password", password.value);
 
         const response = await api.post('/api/auth/login', formData);
-        console.log('Login berhasil : ', response);
+        console.log('Login berhasil ');
 
         // Assuming response.data.token is the token object
         const token = response.data.token.token;
@@ -39,7 +39,7 @@ const isPasswordVisible = ref(false);
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <VRow>
-      <VCol >
+      <VCol class="login-card">
             <VCard
           class="auth-card pa-4 pt-7"
           max-width="448"
@@ -76,8 +76,8 @@ const isPasswordVisible = ref(false);
                   <VTextField
                     v-model="userid"
                     autofocus
-                    placeholder="Masukkan Userid"
-                    label="Userid"
+                    placeholder="Masukkan User id"
+                    label="User id"
                     type="text"
                   />
                 </VCol>
@@ -101,42 +101,23 @@ const isPasswordVisible = ref(false);
                   </VBtn>
                 </VCol>
 
-                <!-- create account -->
-                <VCol
-                  cols="12"
-                  class="text-center text-base"
-                >
-                  <span>New on our platform?</span>
-                  <RouterLink
-                    class="text-primary ms-2"
-                    to="/register"
-                  >
-                    Create an account
-                  </RouterLink>
-                </VCol>
-
-                <VCol
-                  cols="12"
-                  class="d-flex align-center"
-                >
-                  <VDivider />
-                  <span class="mx-4">or</span>
-                  <VDivider />
-                </VCol>
-
-                <!-- auth providers -->
-                <VCol
-                  cols="12"
-                  class="text-center"
-                >
-                  <AuthProvider />
-                </VCol>
               </VRow>
             </VForm>
           </VCardText>
             </VCard>
       </VCol>
-      <VCol >Test</VCol>
+        <VCol class="login-banner-wrapper">
+            <VCardItem class="justify-center">
+                <template #prepend>
+                  <div class="d-flex login-banner">
+                    <div
+                      class="d-flex text-primary image"
+                      v-html="loginBanner"
+                    />
+                  </div>
+                </template>
+              </VCardItem>
+        </VCol>
     </VRow>
   </div>
 </template>
