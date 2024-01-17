@@ -25,7 +25,7 @@ const logout = async () => {
 
     // Redirect the user to the login page
     // You may need to use the router or adjust this part based on your navigation setup
-    window.location.href = "/login";
+    window.location.href = "/";
   } catch (error) {
     // Handle error, such as displaying an error message
     console.error('Logout error:', error);
