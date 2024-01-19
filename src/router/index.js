@@ -13,6 +13,8 @@ const router = createRouter({
         {
           path: 'dashboard',
           component: () => import('../pages/dashboard.vue'),
+          name: 'dashboard',
+          props: (route) => ({ userid: route.params.userid, token: route.params.token }),
           meta: {
             requiresAuth: true,
           },

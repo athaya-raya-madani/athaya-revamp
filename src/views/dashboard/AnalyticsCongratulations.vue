@@ -1,20 +1,39 @@
 <script setup>
 import illustrationJohnDark from '@images/cards/illustration-john-dark.png';
 import illustrationJohnLight from '@images/cards/illustration-john-light.png';
+import { computed, onMounted, ref } from 'vue';
 import { useTheme } from 'vuetify';
+import api from '../../api';
 
+const hallo = ref('');
 const { global } = useTheme()
 const illustrationJohn = computed(() => global.name.value === 'dark' ? illustrationJohnDark : illustrationJohnLight)
+const getUser = async () => {
+  try {
+    const token = localStorage.getItem('token');
 
-  // export default{
-  //   name: 'Home',
-  //   async created(){
-  //     const response = await axios.get('user');
+    if (!token) {
+      console.error('Token is missing');
+      return;
+    }
 
-  //     console.log(response);
-  //   }
-  // }
+    const response = await api.get('/user', {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
 
+    const userName = response.data.data.nmlengkap; // Assuming there's a 'name' property in your user data
+    hallo.value = userName; // Set the value of hallo based on the user's name
+    console.log('User Data: ', response.data.data);
+  } catch (error) {
+    console.log('Error getting user data', error);
+  }
+};
+
+onMounted(() => {
+  getUser();
+});
 </script>
 
 <template>
@@ -28,7 +47,7 @@ const illustrationJohn = computed(() => global.name.value === 'dark' ? illustrat
       >
         <VCardItem>
           <VCardTitle class="text-md-h5 text-primary">
-            Congratulations John! 🎉
+            Congratulations {{hallo}}! 🎉
           </VCardTitle>
         </VCardItem>
 

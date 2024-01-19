@@ -21,12 +21,13 @@ const storeLogin = async () => {
         console.log('Login berhasil ');
 
         // Assuming response.data.token is the token object
-        const token = response.data.token.token;
+        const token = response.data.token;
+        console.log(token);
 
         // Store the token in local storage
         localStorage.setItem('token', token);
 
-        router.push({ path: "/" });
+        router.push('/dashboard');
     } catch (error) {
         errors.value = error.response?.data || 'An error occurred while updating data.';
         console.error('Error login data:', error);

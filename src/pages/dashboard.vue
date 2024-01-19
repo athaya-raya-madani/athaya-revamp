@@ -11,6 +11,34 @@ import chart from '@images/cards/chart-success.png'
 import card from '@images/cards/credit-card-primary.png'
 import paypal from '@images/cards/paypal-error.png'
 import wallet from '@images/cards/wallet-info.png'
+import { onMounted } from 'vue'
+import api from '../api'
+const getUser = async() => {
+  try{
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+            console.error('Token is missing');
+            return;
+      } 
+      // else {
+      //   console.log('token:', token);
+      // }
+
+      const response = await api.get('/user',{ 
+      headers: {
+        Authorization: `${token}`
+    }
+    });
+    console.log('User Data: ', response.data.data);
+  } catch(error){
+    console.log('Erro geting user data', error);
+  }
+}
+
+onMounted(() => {
+  getUser();
+});
 </script>
 
 <template>
