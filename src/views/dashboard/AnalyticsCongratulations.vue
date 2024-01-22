@@ -25,7 +25,7 @@ const getUser = async () => {
 
     const userName = response.data.data.nmlengkap; // Assuming there's a 'name' property in your user data
     hallo.value = userName; // Set the value of hallo based on the user's name
-    console.log('User Data: ', response.data.data);
+    // console.log('User Data: ', response.data.data);
   } catch (error) {
     console.log('Error getting user data', error);
   }
