@@ -37,7 +37,7 @@ const nohp = ref("");
 const nmibukandung = ref("");
 const marketing = ref("");
 const plafondbiaya = ref("");
-const dokslikojk = ref("");
+const dokslikojk = ref(null);
 const errors = ref([]);
 
 //method for handle file changes
@@ -45,9 +45,29 @@ const errors = ref([]);
 //     //assign file to state
 //     namaktp.value = e.target.files[0];
 // };
+// method handle for file change
+const fileName = computed(() => dokslikojk.value?.name);
+const fileExtension = computed(() => fileName.value?.substr(fileName.value?.lastIndexOf(".") + 1));
+const fileMimeType = computed(() => dokslikojk.value?.type);
+
+const uploadFile = (event) => {
+  dokslikojk.value = event.target.files[0];
+};
+
 
 //method "storePost"
-const storePemohon = async () => {
+const submitFile = async () => {
+  const reader = new FileReader();
+  reader.readAsDataURL(dokslikojk.value);
+  reader.onload = async () => {
+    const encodedFile = reader.result.split(",")[1];
+    const data = {
+      dokslikojk: encodedFile,
+      fileName: fileName.value,
+      fileExtension: fileExtension.value,
+      fileMimeType: fileMimeType.value,
+    };
+  }
     try {
           //init formData
     let formData = new FormData();
@@ -75,15 +95,24 @@ const storePemohon = async () => {
     formData.append("nmibukandung", nmibukandung.value);
     formData.append("marketing", marketing.value);
     formData.append("plafondbiaya", plafondbiaya.value);
-    formData.append("dokslikojk", dokslikojk.value);
+    // Append the file separately
+    if (dokslikojk.value) {
+            formData.append("dokslikojk", dokslikojk.value);
+    } 
 
     //store data with API
-    const response = await api.post('/api/permohonan/store', formData)
-    console.log("Berhasil Memasukkan Data : ", response)
+    const response = await api.post('/api/permohonan/store', formData, { headers: { 'Content-Type' : 'multipart/form-data'}});
+    console.log("Berhasil Memasukkan Data : ", response);
+    console.log("File: ", dokslikojk.value);
     router.push({ path: "/permohonans" });
 
     } catch (error) {
-      errors.value = error.response.data;
+      if (error.response && error.response.data) {
+        errors.value = error.response.data;
+    } else {
+        // Handle the error when response or data is undefined
+        console.error("An unexpected error occurred:", error);
+    };
       
     }
 };
@@ -92,7 +121,7 @@ const storePemohon = async () => {
 </script>
 
 <template>
-  <VForm @submit.prevent="storePemohon()">
+  <VForm @submit.prevent="submitFile" enctype="multipart/form-data">
     <VRow>
       <VCol cols="12" md="6">
         <VTextField v-model="sumberdana" label="Sumber Dana" placeholder="Sumber Dana" />
@@ -175,13 +204,8 @@ const storePemohon = async () => {
 
       <!-- 👉 Company -->
       <VCol cols="12" md="6">
-        <VFileInput v-model="dokslikojk" label="Dokumen SLIK" placeholder="Masukkan Dokumen SLIK" />
+            <VFileInput @change="uploadFile" v-model="dokslikojk" label="Dokumen SLIK" placeholder="Masukkan Dokumen SLIK" />
       </VCol>
-
-      <!-- 👉 Remember me -->
-      <!-- <VCol cols="12">
-        <VCheckbox v-model="checkbox" label="Remember me" />
-      </VCol> -->
 
       <VCol cols="12" class="d-flex gap-4">
         <VBtn type="submit">
