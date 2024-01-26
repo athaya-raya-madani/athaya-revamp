@@ -57,19 +57,22 @@ const uploadFile = (event) => {
 
 //method "storePost"
 const submitFile = async () => {
-  const reader = new FileReader();
-  reader.readAsDataURL(dokslikojk.value);
-  reader.onload = async () => {
-    const encodedFile = reader.result.split(",")[1];
-    const data = {
-      dokslikojk: encodedFile,
-      fileName: fileName.value,
-      fileExtension: fileExtension.value,
-      fileMimeType: fileMimeType.value,
-    };
-  }
+    const reader = new FileReader();
+    reader.readAsDataURL(dokslikojk.value);
+    reader.onload = async () => {
+      const encodedFile = reader.result.split(",")[1];
+      const data = {
+        dokslikojk: encodedFile,
+        fileName: fileName.value,
+        fileExtension: fileExtension.value,
+        fileMimeType: fileMimeType.value,
+      };
+    }
     try {
-          //init formData
+      //init formData
+      
+    const formattedTgllahir = tgllahir.value.toISOString().split('T')[0];
+    const formattedTgllahirpasangan = tgllahirpasangan.value.toISOString().split('T')[0];
     let formData = new FormData();
 
     //assign state value to formData
@@ -78,12 +81,12 @@ const submitFile = async () => {
     formData.append("noktp", noktp.value);
     formData.append("namaktp", namaktp.value);
     formData.append("tempatlahir", tempatlahir.value);
-    formData.append("tgllahir", tgllahir.value);
+    formData.append("tgllahir", formattedTgllahir);
     formData.append("jeniskelamin", jeniskelamin.value);
     formData.append("statuskawin", statuskawin.value);
     formData.append("nmpasangan", nmpasangan.value);
     formData.append("tempatlahirpasangan", tempatlahirpasangan.value);
-    formData.append("tgllahirpasangan", tgllahirpasangan.value);
+    formData.append("tgllahirpasangan", formattedTgllahirpasangan);
     formData.append("noktppasangan", noktppasangan.value);
     formData.append("agama", agama.value);
     formData.append("kelurahan", kelurahan.value);
@@ -104,6 +107,8 @@ const submitFile = async () => {
     const response = await api.post('/api/permohonan/store', formData, { headers: { 'Content-Type' : 'multipart/form-data'}});
     console.log("Berhasil Memasukkan Data : ", response);
     console.log("File: ", dokslikojk.value);
+    console.log("Tanggal Lahir: ", formattedTgllahir);
+    console.log("Tanggal Lahir Pasangan: ", formattedTgllahirpasangan);
     router.push({ path: "/permohonans" });
 
     } catch (error) {
@@ -139,10 +144,8 @@ const submitFile = async () => {
         <VTextField v-model="tempatlahir" label="Tempat Lahir" placeholder="Tempat Lahir" />
       </VCol>
       <VCol cols="12" md="6">
-        <!-- <v-date-picker show-adjacent-months></v-date-picker> -->
-        <VueDatePicker v-model="tgllahir" label="Tanggal Lahir" placeholder="Tanggal Lahir" />
+        <VueDatePicker v-model="tgllahir" type="date" format="yyyy-MM-dd" label="Tanggal Lahir" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
       </VCol>
-
       <VCol cols="12" md="6">
         <VTextField v-model="jeniskelamin" label="Jenis Kelamin" placeholder="Masukkan Jenis Kelamin" />
       </VCol>
@@ -156,7 +159,7 @@ const submitFile = async () => {
         <VTextField v-model="tempatlahirpasangan" label="Tempat Lahir Pasangan" placeholder="Tempat Lahir Pasangan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgllahirpasangan" label="Tanggal Lahir Pasangan" placeholder="Tanggal Lahir Pasangan" />
+        <VueDatePicker v-model="tgllahirpasangan" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Pasangan" placeholder="Tanggal Lahir Pasangan" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="noktppasangan" label="No KTP Pasangan" placeholder="No KTP Pasangan" />
@@ -185,28 +188,18 @@ const submitFile = async () => {
       <VCol cols="12" md="6">
         <VTextField v-model="nohp" label="No HP" placeholder="No HP" />
       </VCol>
-      <!-- 👉 First Name -->
-
-      <!-- 👉 Last Name -->
       <VCol cols="12" md="6">
         <VTextField v-model="nmibukandung" label="Nama Ibu Kandung" placeholder="Nama Ibu Kandung" />
       </VCol>
-
-      <!-- 👉 Email -->
       <VCol cols="12" md="6">
         <VTextField v-model="marketing" label="Marketing" placeholder="Marketing" />
       </VCol>
-
-      <!-- 👉 City -->
       <VCol cols="12" md="6">
         <VTextField v-model="plafondbiaya" label="Plafond Biaya" placeholder="Masukkan Nominal plafondbiaya" />
       </VCol>
-
-      <!-- 👉 Company -->
       <VCol cols="12" md="6">
             <VFileInput @change="uploadFile" v-model="dokslikojk" label="Dokumen SLIK" placeholder="Masukkan Dokumen SLIK" />
       </VCol>
-
       <VCol cols="12" class="d-flex gap-4">
         <VBtn type="submit">
           Submit
