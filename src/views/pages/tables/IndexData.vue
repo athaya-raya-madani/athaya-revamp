@@ -64,7 +64,7 @@
     <thead>
       <tr>
         <th class="text-uppercase">
-          No Pemohon
+          No
         </th>
         <th>
           Nama KTP
@@ -92,10 +92,9 @@
                 </tr>
       <tr
        v-else v-for="(permohonan, index) in permohonans"
-        :key="index"
-      >
+        :key="index">
         <td>
-          {{ permohonan.nopemohon }}
+          {{ index + 1 }}
         </td>
         <td class="text-center">
           {{ permohonan.namaktp }}
