@@ -176,13 +176,15 @@ import api from "../../../api";
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
-      dokumen.value = data.dokumen;
-      fisiknasabah.value = data.fisiknasabah;
-      wawancara.value = data.wawancara;
+      // dokumen.value = data.dokumen;
+      // fisiknasabah.value = data.fisiknasabah;
+      // wawancara.value = data.wawancara;
       // tutup data pemohon pembiayaan da referensi
 
 
-
+      console.log("file dokumen:", data.dokumen);
+      console.log("file fisik nasabah:", data.fisiknasabah);
+      console.log("file wawancara nasabah:", data.wawancara);
       console.log('Fetched data berhasil');
     } catch (error) {
       console.error('Error fetching data');
