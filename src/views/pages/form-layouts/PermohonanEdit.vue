@@ -214,6 +214,7 @@ import api from "../../../api";
 
   // Update Pemohon function
   const updatePemohon = async () => {
+    // file reader 
     // const reader = new FileReader();
     // const readerfisik = new FileReader();
     // const readerwawancara = new FileReader();
