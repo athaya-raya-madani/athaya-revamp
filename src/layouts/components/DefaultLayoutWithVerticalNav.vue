@@ -4,6 +4,8 @@ import upgradeBannerDark from '@images/pro/upgrade-banner-dark.png'
 import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useTheme } from 'vuetify'
 
 // Components
@@ -12,10 +14,23 @@ import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 
 const vuetifyTheme = useTheme()
+const idklppengguna = ref("");
 
 const upgradeBanner = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? upgradeBannerLight : upgradeBannerDark
 })
+
+const route = useRoute();
+  const data = localStorage.getItem('idklppengguna');
+  idklppengguna.value = data;
+  console.log(idklppengguna.value);
+const otorization = computed(()=> {
+  return idklppengguna.value !== '2' ? 'none' : 'block' ;
+})
+// const isAuthorizedForPemohon = computed(() => {
+//   const requiresOtorizaion = route.meta.requiresOtorizaion;
+//   return !requiresOtorizaion ;
+// });
 </script>
 
 <template>
@@ -84,11 +99,13 @@ const upgradeBanner = computed(() => {
         }"
       />
       <VerticalNavLink
-        :item="{
-          title: 'Pemohon',
-          icon: 'mdi-account-cog-outline',
-          to: '/permohonans',
-        }"
+      v-if="otorization"
+      :item="{
+        title: 'Pemohon',
+        icon: 'mdi-account-cog-outline',
+        to: '/permohonans',
+      }"
+      :style="{ display: otorization }"
       />
 
       <!-- 👉 Pages -->

@@ -33,6 +33,7 @@ const router = createRouter({
           component: () => import('../pages/permohonan.vue'),
           meta: {
             requiresAuth: true,
+            requiresOtorizaion: true,
           },
         },
         {
@@ -76,15 +77,29 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const requiresOtorizaion = to.matched.some((record) => record.meta.requiresOtorizaion);
+
 
   if (requiresAuth) {
     const token = localStorage.getItem('token');
-    if (token) {
-      // User is authenticated, proceed to the route
-      next();
-    } else {
+    if (!token) {
       // User is not authenticated, redirect to login
       next('/login');
+    } else {
+      // User is authenticated
+      if (requiresOtorizaion) {
+        const idklppengguna = localStorage.getItem('idklppengguna');
+        if (idklppengguna == 2) {
+          // User has the required authorization, proceed to the route
+          next();
+        } else {
+          // User does not have the required authorization, redirect to a default route
+          next('/');
+        }
+      } else {
+        // Route doesn't require specific authorization, proceed to the route
+        next();
+      }
     }
   } else {
     // Non-protected route, allow access
