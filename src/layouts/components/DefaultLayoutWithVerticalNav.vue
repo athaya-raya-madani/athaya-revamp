@@ -1,13 +1,20 @@
 <script setup>
+import Dropdown from '@/@layouts/components/DropdownNav.vue'
 import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
 import upgradeBannerDark from '@images/pro/upgrade-banner-dark.png'
 import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTheme } from 'vuetify'
 
+
+const isDropdownExpanded = ref(false)
+
+const toggleDropdown = () => {
+  isDropdownExpanded.value = !isDropdownExpanded.value
+}
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
@@ -19,7 +26,6 @@ const idklppengguna = ref("");
 const upgradeBanner = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? upgradeBannerLight : upgradeBannerDark
 })
-
 const route = useRoute();
   const data = localStorage.getItem('idklppengguna');
   idklppengguna.value = data;
@@ -92,13 +98,6 @@ const otorization = computed(()=> {
         }"
       />
       <VerticalNavLink
-        :item="{
-          title: 'Account Settings',
-          icon: 'mdi-account-cog-outline',
-          to: '/account-settings',
-        }"
-      />
-      <VerticalNavLink
       v-if="otorization"
       :item="{
         title: 'Pemohon',
@@ -107,7 +106,53 @@ const otorization = computed(()=> {
       }"
       :style="{ display: otorization }"
       />
-
+      <!-- <VerticalNavLink
+      :item="{
+        title: 'Verifikasi & Approval',
+        icon: 'mdi-list-status',
+        to: '/verifikasi',
+      }"
+      /> -->
+        <!-- Verifikasi & Approval -->
+      <!-- Verifikasi & Approval -->
+    <Dropdown title="Verifikasi & Approval" icon="mdi-list-status">
+    <VerticalNavLink
+      :item="{
+        title: 'Analisa Kredit',
+        icon: 'mdi-account-arrow-left',
+        to: '/analisa-kredit',
+      }"
+    />
+    <VerticalNavLink
+      :item="{
+        title: 'Histori Analisa Kredit',
+        icon: 'mdi-account-arrow-left',
+        to: '/history-analisa',
+      }"
+    />
+    <VerticalNavLink
+      :item="{
+        title: 'Kirim Data SLIK OJK',
+        icon: 'mdi-account-arrow-left',
+        to: '/data-slik',
+      }"
+    />
+    <VerticalNavLink
+      :item="{
+        title: 'Kirim Perbaikan ke Cabang',
+        icon: 'mdi-account-arrow-left',
+        to: '/perbaikan-cabang',
+      }"
+    />
+    <VerticalNavLink
+      :item="{
+        title: 'Kirim Hasil SLIK ke Cabang',
+        icon: 'mdi-account-arrow-left',
+        to: '/slik-cabang',
+      }"
+    />
+    <!-- Add more dropdown items as needed -->
+  </Dropdown>
       <!-- 👉 Pages -->
       <VerticalNavSectionTitle
         :item="{
@@ -197,5 +242,4 @@ const otorization = computed(()=> {
   padding-block: 0.125rem;
   padding-inline: 0.25rem;
 }
-
 </style>

@@ -3,6 +3,10 @@ import api from "@/api"; // Update the path based on your project structure
 import avatar1 from '@images/avatars/avatar-1.png';
 
 
+const profile = async () => {
+  window.location.href = "/account-settings";
+}
+
 const logout = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -90,12 +94,13 @@ const logout = async () => {
             <template #prepend>
               <VIcon
                 class="me-2"
-                icon="bx-user"
+                icon="mdi-account-cog-outline"
                 size="22"
               />
             </template>
 
-            <VListItemTitle>Profile</VListItemTitle>
+            <VListItemTitle @click="profile">Profile</VListItemTitle>
+            
           </VListItem>
 
           <!-- 👉 Settings -->
@@ -150,7 +155,7 @@ const logout = async () => {
               />
             </template>
 
-            <VListItemTitle @click="logout()">Logout</VListItemTitle>
+            <VListItemTitle @click="logout">Logout</VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>
@@ -158,3 +163,11 @@ const logout = async () => {
     </VAvatar>
   </VBadge>
 </template>
+
+<style lang="scss">
+  .nav-link{
+    list-style: none;
+    color: inherit;
+    background: transparent;
+  }
+</style>
