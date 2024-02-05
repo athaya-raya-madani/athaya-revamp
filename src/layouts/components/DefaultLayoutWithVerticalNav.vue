@@ -6,15 +6,10 @@ import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import { useTheme } from 'vuetify'
 
 
-const isDropdownExpanded = ref(false)
 
-const toggleDropdown = () => {
-  isDropdownExpanded.value = !isDropdownExpanded.value
-}
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
@@ -26,7 +21,7 @@ const idklppengguna = ref("");
 const upgradeBanner = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? upgradeBannerLight : upgradeBannerDark
 })
-const route = useRoute();
+
   const data = localStorage.getItem('idklppengguna');
   idklppengguna.value = data;
   console.log(idklppengguna.value);

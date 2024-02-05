@@ -1,11 +1,17 @@
 <script setup>
 import api from "@/api"; // Update the path based on your project structure
 import avatar1 from '@images/avatars/avatar-1.png';
+import { onMounted, ref } from "vue";
+
+const name = ref('');
 
 
 const profile = async () => {
   window.location.href = "/account-settings";
 }
+
+const idklppengguna = localStorage.getItem('idklppengguna');
+const token = localStorage.getItem('token');
 
 const logout = async () => {
   try {
@@ -35,6 +41,34 @@ const logout = async () => {
     console.error('Logout error:', error);
   }
 };
+
+const getUser = async () => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('Token is missing');
+      return;
+    }
+
+    const response = await api.get('/user', {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
+
+    const userName = response.data.data.nmlengkap; // Assuming there's a 'name' property in your user data
+    name.value = userName; // Set the value of name based on the user's name
+    // console.log('User Data: ', response.data.data);
+  } catch (error) {
+    console.log('Error getting user data', error);
+  }
+};
+
+  
+onMounted(() => {
+  getUser();
+})
 </script>
 
 <template>
@@ -83,9 +117,16 @@ const logout = async () => {
             </template>
 
             <VListItemTitle class="font-weight-semibold">
-              John Doe
+              {{ name }}
             </VListItemTitle>
-            <VListItemSubtitle>Admin</VListItemSubtitle>
+            <VListItemSubtitle v-if="idklppengguna === '2'">Cabang</VListItemSubtitle>
+            <VListItemSubtitle v-else-if="idklppengguna === '11'">Operasional</VListItemSubtitle>
+            <VListItemSubtitle v-else-if="idklppengguna === '17'">Bisnin</VListItemSubtitle>
+            <VListItemSubtitle v-else-if="idklppengguna === '18'">Kadiv Operasinal</VListItemSubtitle>
+            <VListItemSubtitle v-else-if="idklppengguna === '25'">SDM & GA</VListItemSubtitle>
+            <VListItemSubtitle v-else-if="idklppengguna === '8'">BPR TAS</VListItemSubtitle>
+            <VListItemSubtitle v-else-if="idklppengguna === '19'">Keuangan</VListItemSubtitle>
+            <VListItemSubtitle v-else></VListItemSubtitle>
           </VListItem>
           <VDivider class="my-2" />
 
