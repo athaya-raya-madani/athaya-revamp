@@ -2,8 +2,10 @@
 import api from "@/api"; // Update the path based on your project structure
 import avatar1 from '@images/avatars/avatar-1.png';
 import { onMounted, ref } from "vue";
+// const router = useRouter();
 
 const name = ref('');
+const user = ref([]);
 
 
 const profile = async () => {
@@ -140,7 +142,7 @@ onMounted(() => {
               />
             </template>
 
-            <VListItemTitle @click="profile">Profile</VListItemTitle>
+            <VListItemTitle @click="profile" >Profile</VListItemTitle>
             
           </VListItem>
 

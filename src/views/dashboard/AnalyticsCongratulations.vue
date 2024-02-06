@@ -23,7 +23,6 @@ const getUser = async () => {
       }
     });
 
-    
     const idklppengguna = response.data.data.idklppengguna;
     localStorage.setItem('idklppengguna', idklppengguna);
     const userName = response.data.data.nmlengkap; // Assuming there's a 'name' property in your user data

@@ -216,41 +216,6 @@ import api from "../../../api";
 
   // Update Pemohon function
   const updatePemohon = async () => {
-    // file reader 
-    // const reader = new FileReader();
-    // const readerfisik = new FileReader();
-    // const readerwawancara = new FileReader();
-    // // reader.readAsDataURL(dokumen.value);
-    // // reader.onload = async () => {
-    // //   const encodedFile = reader.result.split(",")[1];
-    // //   const data = {
-    // //     dokumen: encodedFile,
-    // //     fileName: fileName.value,
-    // //     fileExtension: fileExtension.value,
-    // //     fileMimeType: fileMimeType.value,
-    // //   };
-    // // }
-    // // readerfisik.readAsDataURL(fisiknasabah.valuee);
-    // // readerfisik.onload = async () => {
-    // //   const encodedFile = readerfisik.result.split(",")[1];
-    // //   const data = {
-    // //     fisiknasabah: encodedFile,
-    // //     fileName: fileName.value,
-    // //     fileExtension: fileExtension.value,
-    // //     fileMimeType: fileMimeType.value,
-    // //   };
-    // // }
-    // // readerwawancara.readAsDataURL(wawancara.value);
-    // // readerwawancara.onload = async () => {
-    // //   const encodedFile = readerwawancara.result.split(",")[1];
-    // //   const data = {
-    // //     wawancara: encodedFile,
-    // //     fileName: fileName.value,
-    // //     fileExtension: fileExtension.value,
-    // //     fileMimeType: fileMimeType.value,
-    // //   };
-    // // }
-
     try {
       // format tgllahir for year,month,date
     const formattedTgllahir = tgllahir.value.toISOString().split('T')[0];

@@ -1,5 +1,76 @@
 <script setup>
-import avatar1 from '@images/avatars/avatar-1.png'
+import avatar1 from '@images/avatars/avatar-1.png';
+import { onMounted } from 'vue';
+import api from '../../../api';
+
+const router = useRouter();
+const route = useRoute();
+
+const nmlengkap = ref("");
+const tgllogin = ref("");
+const tgldaftar = ref("");
+const email = ref("");
+const kdsubcabang = ref("");
+// const password = ref("");
+
+const errors = ref([]);
+
+
+onMounted(async () => {
+  try{
+    const token = localStorage.getItem('token');
+    const response = await api.get('/user', {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
+    const data = response.data.data;
+
+    // userid = data.userid;
+    nmlengkap.value = data.nmlengkap;
+    kdsubcabang.value = data.kdsubcabang;
+    tgldaftar.value = data.tgldaftar;
+    tgllogin.value = data.tgllogin;
+    email.value = data.email;
+
+  } catch(error){
+    console.error('error fetching data');
+  }
+});
+
+const updatePengguna = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Missing token');
+    }
+
+    const formData = new FormData();
+
+    formData.append("nmlengkap", nmlengkap.value);
+    formData.append("kdsubcabang", kdsubcabang.value);
+    formData.append("tgldaftar", tgldaftar.value);
+    formData.append("tgllogin", tgllogin.value);
+    formData.append("email", email.value);
+
+    const response = await api.get('/user', {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
+    const userid = response.data.userid;
+
+    const update = await api.post(`api/auth/${userid}/update`, formData, {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
+    console.log('update data: ', update)
+  } catch (error) {
+    errors.value = error.response ?.data || 'An error occurred while updating data';
+    console.error('Error updating data: ', error);
+  }
+}
 
 const accountData = {
   avatarImg: avatar1,
@@ -42,62 +113,62 @@ const resetAvatar = () => {
   accountDataLocal.value.avatarImg = accountData.avatarImg
 }
 
-const timezones = [
-  '(GMT-11:00) International Date Line West',
-  '(GMT-11:00) Midway Island',
-  '(GMT-10:00) Hawaii',
-  '(GMT-09:00) Alaska',
-  '(GMT-08:00) Pacific Time (US & Canada)',
-  '(GMT-08:00) Tijuana',
-  '(GMT-07:00) Arizona',
-  '(GMT-07:00) Chihuahua',
-  '(GMT-07:00) La Paz',
-  '(GMT-07:00) Mazatlan',
-  '(GMT-07:00) Mountain Time (US & Canada)',
-  '(GMT-06:00) Central America',
-  '(GMT-06:00) Central Time (US & Canada)',
-  '(GMT-06:00) Guadalajara',
-  '(GMT-06:00) Mexico City',
-  '(GMT-06:00) Monterrey',
-  '(GMT-06:00) Saskatchewan',
-  '(GMT-05:00) Bogota',
-  '(GMT-05:00) Eastern Time (US & Canada)',
-  '(GMT-05:00) Indiana (East)',
-  '(GMT-05:00) Lima',
-  '(GMT-05:00) Quito',
-  '(GMT-04:00) Atlantic Time (Canada)',
-  '(GMT-04:00) Caracas',
-  '(GMT-04:00) La Paz',
-  '(GMT-04:00) Santiago',
-  '(GMT-03:30) Newfoundland',
-  '(GMT-03:00) Brasilia',
-  '(GMT-03:00) Buenos Aires',
-  '(GMT-03:00) Georgetown',
-  '(GMT-03:00) Greenland',
-  '(GMT-02:00) Mid-Atlantic',
-  '(GMT-01:00) Azores',
-  '(GMT-01:00) Cape Verde Is.',
-  '(GMT+00:00) Casablanca',
-  '(GMT+00:00) Dublin',
-  '(GMT+00:00) Edinburgh',
-  '(GMT+00:00) Lisbon',
-  '(GMT+00:00) London',
-]
+// const timezones = [
+//   '(GMT-11:00) International Date Line West',
+//   '(GMT-11:00) Midway Island',
+//   '(GMT-10:00) Hawaii',
+//   '(GMT-09:00) Alaska',
+//   '(GMT-08:00) Pacific Time (US & Canada)',
+//   '(GMT-08:00) Tijuana',
+//   '(GMT-07:00) Arizona',
+//   '(GMT-07:00) Chihuahua',
+//   '(GMT-07:00) La Paz',
+//   '(GMT-07:00) Mazatlan',
+//   '(GMT-07:00) Mountain Time (US & Canada)',
+//   '(GMT-06:00) Central America',
+//   '(GMT-06:00) Central Time (US & Canada)',
+//   '(GMT-06:00) Guadalajara',
+//   '(GMT-06:00) Mexico City',
+//   '(GMT-06:00) Monterrey',
+//   '(GMT-06:00) Saskatchewan',
+//   '(GMT-05:00) Bogota',
+//   '(GMT-05:00) Eastern Time (US & Canada)',
+//   '(GMT-05:00) Indiana (East)',
+//   '(GMT-05:00) Lima',
+//   '(GMT-05:00) Quito',
+//   '(GMT-04:00) Atlantic Time (Canada)',
+//   '(GMT-04:00) Caracas',
+//   '(GMT-04:00) La Paz',
+//   '(GMT-04:00) Santiago',
+//   '(GMT-03:30) Newfoundland',
+//   '(GMT-03:00) Brasilia',
+//   '(GMT-03:00) Buenos Aires',
+//   '(GMT-03:00) Georgetown',
+//   '(GMT-03:00) Greenland',
+//   '(GMT-02:00) Mid-Atlantic',
+//   '(GMT-01:00) Azores',
+//   '(GMT-01:00) Cape Verde Is.',
+//   '(GMT+00:00) Casablanca',
+//   '(GMT+00:00) Dublin',
+//   '(GMT+00:00) Edinburgh',
+//   '(GMT+00:00) Lisbon',
+//   '(GMT+00:00) London',
+// ]
 
-const currencies = [
-  'USD',
-  'EUR',
-  'GBP',
-  'AUD',
-  'BRL',
-  'CAD',
-  'CNY',
-  'CZK',
-  'DKK',
-  'HKD',
-  'HUF',
-  'INR',
-]
+// const currencies = [
+//   'USD',
+//   'EUR',
+//   'GBP',
+//   'AUD',
+//   'BRL',
+//   'CAD',
+//   'CNY',
+//   'CZK',
+//   'DKK',
+//   'HKD',
+//   'HUF',
+//   'INR',
+// ]
 </script>
 
 <template>
@@ -160,15 +231,15 @@ const currencies = [
 
         <VCardText>
           <!-- 👉 Form -->
-          <VForm class="mt-6">
+          <VForm class="mt-6" @submit.prevent="updatePengguna()">
             <VRow>
               <!-- 👉 First Name -->
               <VCol
-                md="6"
+                md="6"  
                 cols="12"
               >
                 <VTextField
-                  v-model="accountDataLocal.firstName"
+                  v-model="nmlengkap"
                   placeholder="John"
                   label="First Name"
                 />
@@ -180,7 +251,7 @@ const currencies = [
                 cols="12"
               >
                 <VTextField
-                  v-model="accountDataLocal.lastName"
+                  v-model="kdsubcabang"
                   placeholder="Doe"
                   label="Last Name"
                 />
@@ -192,7 +263,7 @@ const currencies = [
                 md="6"
               >
                 <VTextField
-                  v-model="accountDataLocal.email"
+                  v-model="email"
                   label="E-mail"
                   placeholder="johndoe@gmail.com"
                   type="email"
@@ -205,7 +276,7 @@ const currencies = [
                 md="6"
               >
                 <VTextField
-                  v-model="accountDataLocal.org"
+                  v-model="tgldaftar"
                   label="Organization"
                   placeholder="ThemeSelection"
                 />
@@ -217,14 +288,14 @@ const currencies = [
                 md="6"
               >
                 <VTextField
-                  v-model="accountDataLocal.phone"
+                  v-model="tgllogin"
                   label="Phone Number"
                   placeholder="+1 (917) 543-9876"
                 />
               </VCol>
 
               <!-- 👉 Address -->
-              <VCol
+              <!-- <VCol
                 cols="12"
                 md="6"
               >
@@ -233,10 +304,10 @@ const currencies = [
                   label="Address"
                   placeholder="123 Main St, New York, NY 10001"
                 />
-              </VCol>
+              </VCol> -->
 
               <!-- 👉 State -->
-              <VCol
+              <!-- <VCol
                 cols="12"
                 md="6"
               >
@@ -245,10 +316,10 @@ const currencies = [
                   label="State"
                   placeholder="New York"
                 />
-              </VCol>
+              </VCol> -->
 
               <!-- 👉 Zip Code -->
-              <VCol
+              <!-- <VCol
                 cols="12"
                 md="6"
               >
@@ -257,10 +328,10 @@ const currencies = [
                   label="Zip Code"
                   placeholder="10001"
                 />
-              </VCol>
+              </VCol> -->
 
               <!-- 👉 Country -->
-              <VCol
+              <!-- <VCol
                 cols="12"
                 md="6"
               >
@@ -270,10 +341,10 @@ const currencies = [
                   :items="['USA', 'Canada', 'UK', 'India', 'Australia']"
                   placeholder="Select Country"
                 />
-              </VCol>
+              </VCol> -->
 
               <!-- 👉 Language -->
-              <VCol
+              <!-- <VCol
                 cols="12"
                 md="6"
               >
@@ -283,10 +354,10 @@ const currencies = [
                   placeholder="Select Language"
                   :items="['English', 'Spanish', 'Arabic', 'Hindi', 'Urdu']"
                 />
-              </VCol>
+              </VCol> -->
 
               <!-- 👉 Timezone -->
-              <VCol
+              <!-- <VCol
                 cols="12"
                 md="6"
               >
@@ -297,10 +368,10 @@ const currencies = [
                   :items="timezones"
                   :menu-props="{ maxHeight: 200 }"
                 />
-              </VCol>
+              </VCol> -->
 
               <!-- 👉 Currency -->
-              <VCol
+              <!-- <VCol
                 cols="12"
                 md="6"
               >
@@ -311,14 +382,14 @@ const currencies = [
                   :items="currencies"
                   :menu-props="{ maxHeight: 200 }"
                 />
-              </VCol>
+              </VCol> -->
 
               <!-- 👉 Form Actions -->
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn>Save changes</VBtn>
+                <VBtn @click="updatePengguna">Save changes</VBtn>
 
                 <VBtn
                   color="secondary"
