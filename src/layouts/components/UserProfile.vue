@@ -6,10 +6,11 @@ import { onMounted, ref } from "vue";
 
 const name = ref('');
 const user = ref([]);
+const router = useRouter();
 
 
 const profile = async () => {
-  window.location.href = "/account-settings";
+  router.push('/account-settings');
 }
 
 const idklppengguna = localStorage.getItem('idklppengguna');
