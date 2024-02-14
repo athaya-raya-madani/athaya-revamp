@@ -6,37 +6,40 @@ import AnalyticsProfitReport from '@/views/dashboard/AnalyticsProfitReport.vue'
 import AnalyticsTotalRevenue from '@/views/dashboard/AnalyticsTotalRevenue.vue'
 import AnalyticsTransactions from '@/views/dashboard/AnalyticsTransactions.vue'
 
+import { onMounted } from 'vue'
+import api from '../api'
 // 👉 Images
 import chart from '@images/cards/chart-success.png'
 import card from '@images/cards/credit-card-primary.png'
 import paypal from '@images/cards/paypal-error.png'
 import wallet from '@images/cards/wallet-info.png'
-// const getUser = async() => {
-//   try{
-//       const token = localStorage.getItem('token');
+const pencairan = ref('');
+const antrianslik = ref('');
+const antrianverifikasi = ref('');
 
-//       if (!token) {
-//             console.error('Token is missing');
-//             return;
-//       } 
-//       // else {
-//       //   console.log('token:', token);
-//       // }
+const getAntrian = async () => {
+  try{
+    const response = await api.get('/api/permohonan/jumlah-antrian');
 
-//       const response = await api.get('/user',{ 
-//       headers: {
-//         Authorization: `${token}`
-//     }
-//     });
-//     console.log('User Data: ', response.data.data);
-//   } catch(error){
-//     console.log('Erro geting user data', error);
-//   }
-// }
+    const slik = response.data.slik;
+    const verifikasi = response.data.verifikasi;
+    const cair = response.data.pencairan;
 
-// onMounted(() => {
-//   getUser();
-// });
+    pencairan.value = cair,
+    antrianslik.value = slik,
+    antrianverifikasi.value = verifikasi,
+    console.log('pencairan: ', cair);
+    console.log('antrianslik: ', slik);
+    console.log('antrianverifikasi: ', verifikasi);
+    // console.log('antrianslik', antiranslik);
+    // console.log('antrianverifikasi', antirianverifikasi);
+  } catch (error) {
+    console.error('error retrieving data', error);
+  }
+}
+onMounted(() => {
+  getAntrian();
+});
 </script>
 
 <template>
@@ -61,9 +64,9 @@ import wallet from '@images/cards/wallet-info.png'
         >
           <CardStatisticsVertical
             v-bind="{
-              title: 'Profit',
+              title: 'Total Pencairan',
               image: chart,
-              stats: '$12,628',
+              stats: pencairan,
               change: 72.80,
             }"
           />
@@ -76,9 +79,9 @@ import wallet from '@images/cards/wallet-info.png'
         >
           <CardStatisticsVertical
             v-bind="{
-              title: 'Sales',
+              title: 'Antiran Verifikasi',
               image: wallet,
-              stats: '$4,679',
+              stats: antrianverifikasi,
               change: 28.42,
             }"
           />
@@ -126,9 +129,9 @@ import wallet from '@images/cards/wallet-info.png'
         >
           <CardStatisticsVertical
             v-bind="{
-              title: 'Transactions',
+              title: 'Antrian Slik',
               image: card,
-              stats: '$14,857',
+              stats: antrianslik,
               change: 28.14,
             }"
           />

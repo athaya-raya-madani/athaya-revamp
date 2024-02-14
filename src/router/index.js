@@ -28,6 +28,14 @@ const router = createRouter({
         },
         // ... other routes
         {
+          path: 'analisa-kredit',
+          name: 'analisa-kredit',
+          component: () => import('../pages/analisa-kredit.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
           path: 'permohonans',
           name: 'permohonans',
           component: () => import('../pages/permohonan.vue'),
