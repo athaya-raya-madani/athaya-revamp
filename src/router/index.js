@@ -36,6 +36,14 @@ const router = createRouter({
           },
         },
         {
+          path: 'analisa-kredit/:id/view',
+          name: 'analisa.edit',
+          component: () => import('../pages/analisaEdit.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
           path: 'permohonans',
           name: 'permohonans',
           component: () => import('../pages/permohonan.vue'),

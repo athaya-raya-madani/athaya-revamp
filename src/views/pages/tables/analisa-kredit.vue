@@ -53,8 +53,8 @@
         <td class="text-center">{{ verifikasi.noktp }}</td>
         <td>
           <div class="d-flex justify-content-center">
-            <VBtn :to="{ name: 'permohonans.edit', params: { id: verifikasi.id } }" class="v-btn btn-sm bg-warning rounded-sm shadow border-0 me-2">
-              EDIT
+            <VBtn :to="{ name: 'analisa.edit', params: { id: verifikasi.id } }" class="v-btn btn-sm bg-warning rounded-sm shadow border-0 me-2">
+              Lihat
             </VBtn>
           </div>
         </td>

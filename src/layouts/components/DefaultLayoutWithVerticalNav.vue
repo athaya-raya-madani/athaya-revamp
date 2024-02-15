@@ -25,8 +25,15 @@ const upgradeBanner = computed(() => {
   const data = localStorage.getItem('idklppengguna');
   idklppengguna.value = data;
   console.log(idklppengguna.value);
-const otorization = computed(()=> {
+const cabang = computed(()=> {
   return idklppengguna.value !== '2' ? 'none' : 'block' ;
+})
+const operasioal = computed(()=> {
+  return idklppengguna.value !== '11' ? 'none' : 'block' ;
+})
+
+const bprtas = computed(() => {
+  return idklppengguna.value !== '8' ? 'none' : 'block' ;
 })
 // const isAuthorizedForPemohon = computed(() => {
 //   const requiresOtorizaion = route.meta.requiresOtorizaion;
@@ -93,13 +100,13 @@ const otorization = computed(()=> {
         }"
       />
       <VerticalNavLink
-      v-if="otorization"
+      v-if="cabang"
       :item="{
         title: 'Pemohon',
         icon: 'mdi-account-cog-outline',
         to: '/permohonans',
       }"
-      :style="{ display: otorization }"
+      :style="{ display: cabang }"
       />
       <!-- <VerticalNavLink
       :item="{
@@ -110,44 +117,61 @@ const otorization = computed(()=> {
       /> -->
         <!-- Verifikasi & Approval -->
       <!-- Verifikasi & Approval -->
-    <Dropdown title="Verifikasi & Approval" icon="mdi-list-status">
-    <VerticalNavLink
-      :item="{
-        title: 'Analisa Kredit',
-        icon: 'mdi-account-arrow-left',
-        to: '/analisa-kredit',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Histori Analisa Kredit',
-        icon: 'mdi-account-arrow-left',
-        to: '/history-analisa',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Kirim Data SLIK OJK',
-        icon: 'mdi-account-arrow-left',
-        to: '/data-slik',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Kirim Perbaikan ke Cabang',
-        icon: 'mdi-account-arrow-left',
-        to: '/perbaikan-cabang',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Kirim Hasil SLIK ke Cabang',
-        icon: 'mdi-account-arrow-left',
-        to: '/slik-cabang',
-      }"
-    />
+      <Dropdown title="Bank" v-if="bprtas" :style="{display: bprtas}" icon="mdi-list-status">
+      <VerticalNavLink
+        :item="{
+          title: 'Antrian Slik OJK',
+          icon: 'mdi-account-arrow-left',
+          to: '/analisa-kredit',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Approval BANK',
+          icon: 'mdi-account-arrow-left',
+          to: '/history-analisa',
+        }"
+      />
     <!-- Add more dropdown items as needed -->
-  </Dropdown>
+      </Dropdown>
+      <Dropdown title="Verifikasi & Approval" v-if="operasioal" :style="{ display: operasioal}" icon="mdi-list-status">
+      <VerticalNavLink
+        :item="{
+          title: 'Analisa Kredit',
+          icon: 'mdi-account-arrow-left',
+          to: '/analisa-kredit',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Histori Analisa Kredit',
+          icon: 'mdi-account-arrow-left',
+          to: '/history-analisa',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Kirim Data SLIK OJK',
+          icon: 'mdi-account-arrow-left',
+          to: '/data-slik',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Kirim Perbaikan ke Cabang',
+          icon: 'mdi-account-arrow-left',
+          to: '/perbaikan-cabang',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Kirim Hasil SLIK ke Cabang',
+          icon: 'mdi-account-arrow-left',
+          to: '/slik-cabang',
+        }"
+      />
+    <!-- Add more dropdown items as needed -->
+      </Dropdown>
       <!-- 👉 Pages -->
       <VerticalNavSectionTitle
         :item="{
