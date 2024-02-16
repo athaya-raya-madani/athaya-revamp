@@ -5,7 +5,7 @@ import upgradeBannerDark from '@images/pro/upgrade-banner-dark.png'
 import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useTheme } from 'vuetify'
 
 
@@ -22,9 +22,7 @@ const upgradeBanner = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? upgradeBannerLight : upgradeBannerDark
 })
 
-  const data = localStorage.getItem('idklppengguna');
-  idklppengguna.value = data;
-  console.log(idklppengguna.value);
+
 const cabang = computed(()=> {
   return idklppengguna.value !== '2' ? 'none' : 'block' ;
 })
@@ -35,6 +33,12 @@ const operasioal = computed(()=> {
 const bprtas = computed(() => {
   return idklppengguna.value !== '8' ? 'none' : 'block' ;
 })
+onMounted(() => {
+  const data = localStorage.getItem('idklppengguna');
+  idklppengguna.value = data;
+  console.log(idklppengguna.value);
+});
+
 // const isAuthorizedForPemohon = computed(() => {
 //   const requiresOtorizaion = route.meta.requiresOtorizaion;
 //   return !requiresOtorizaion ;

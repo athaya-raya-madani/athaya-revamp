@@ -22,10 +22,16 @@ const storeLogin = async () => {
 
         // Assuming response.data.token is the token object
         const token = response.data.token;
-        console.log(token);
+        // console.log(token);
 
         // Store the token in local storage
         localStorage.setItem('token', token);
+
+        // Extract idklppengguna value from the response
+        const idklppengguna = response.data.data[0].idklppengguna;
+
+        // Store the idklppengguna in local storage
+        localStorage.setItem('idklppengguna', idklppengguna);
 
         router.push('/dashboard');
     } catch (error) {
@@ -34,8 +40,10 @@ const storeLogin = async () => {
     }
 };
 
+
 const isPasswordVisible = ref(false);
 </script>
+
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">

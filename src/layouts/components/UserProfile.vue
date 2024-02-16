@@ -35,7 +35,7 @@ const logout = async () => {
 
     // Clear the token from local storage or any other necessary cleanup
     localStorage.removeItem('token');
-
+    localStorage.removeItem('idklppengguna');
     // Redirect the user to the login page
     // You may need to use the router or adjust this part based on your navigation setup
     window.location.href = "/";
