@@ -121,18 +121,18 @@ onMounted(() => {
       /> -->
         <!-- Verifikasi & Approval -->
       <!-- Verifikasi & Approval -->
-      <Dropdown title="Bank" v-if="bprtas" :style="{display: bprtas}" icon="mdi-list-status">
+      <Dropdown title="Bank" v-if="bprtas" :style="{display: bprtas}" icon="mdi-bank-check">
       <VerticalNavLink
         :item="{
           title: 'Antrian Slik OJK',
-          icon: 'mdi-account-arrow-left',
+          icon: 'mdi-account-multiple-plus',
           to: '/analisa-kredit',
         }"
       />
       <VerticalNavLink
         :item="{
           title: 'Approval BANK',
-          icon: 'mdi-account-arrow-left',
+          icon: 'mdi-account-multiple-check',
           to: '/history-analisa',
         }"
       />
@@ -142,35 +142,35 @@ onMounted(() => {
       <VerticalNavLink
         :item="{
           title: 'Analisa Kredit',
-          icon: 'mdi-account-arrow-left',
+          icon: 'mdi-home-analytics',
           to: '/analisa-kredit',
         }"
       />
       <VerticalNavLink
         :item="{
           title: 'Histori Analisa Kredit',
-          icon: 'mdi-account-arrow-left',
+          icon: 'mdi-clipboard-text-clock-outline',
           to: '/history-analisa',
         }"
       />
       <VerticalNavLink
         :item="{
           title: 'Kirim Data SLIK OJK',
-          icon: 'mdi-account-arrow-left',
+          icon: 'mdi-account-arrow-right',
           to: '/data-slik',
         }"
       />
       <VerticalNavLink
         :item="{
           title: 'Kirim Perbaikan ke Cabang',
-          icon: 'mdi-account-arrow-left',
+          icon: 'mdi-account-edit',
           to: '/perbaikan-cabang',
         }"
       />
       <VerticalNavLink
         :item="{
           title: 'Kirim Hasil SLIK ke Cabang',
-          icon: 'mdi-account-arrow-left',
+          icon: 'mdi-account-check',
           to: '/slik-cabang',
         }"
       />
