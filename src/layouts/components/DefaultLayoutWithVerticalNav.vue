@@ -126,7 +126,7 @@ onMounted(() => {
         :item="{
           title: 'Antrian Slik OJK',
           icon: 'mdi-account-multiple-plus',
-          to: '/analisa-kredit',
+          to: '/antrian-slik-bprtas',
         }"
       />
       <VerticalNavLink

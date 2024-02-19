@@ -27,6 +27,7 @@ const router = createRouter({
           },
         },
         // ... other routes
+        // analisa kredit
         {
           path: 'analisa-kredit',
           name: 'analisa-kredit',
@@ -39,6 +40,40 @@ const router = createRouter({
           path: 'analisa-kredit/:id/view',
           name: 'analisa.edit',
           component: () => import('../pages/analisaEdit.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        // antrian Slik
+        {
+          path: 'data-slik',
+          name: 'data-slik',
+          component: () => import('../pages/antrian-slik.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'antrian-slik/:id/view',
+          name: 'antrianslik.edit',
+          component: () => import('../pages/antrianSlik.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        // antrian bank bpr
+        {
+          path: 'antrian-slik-bprtas',
+          name: 'antrian-slik-bprtas',
+          component: () => import('../pages/antrian-slik-bprtas.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'antrian-slik-bprtas/:id/view',
+          name: 'antrianbprtas.edit',
+          component: () => import('../pages/antrianBprtasEdit.vue'),
           meta: {
             requiresAuth: true,
           },
