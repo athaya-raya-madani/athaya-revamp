@@ -46,8 +46,8 @@ const router = createRouter({
         },
         // antrian Slik
         {
-          path: 'data-slik',
-          name: 'data-slik',
+          path: 'antrian-slik',
+          name: 'antrian-slik',
           component: () => import('../pages/antrian-slik.vue'),
           meta: {
             requiresAuth: true,

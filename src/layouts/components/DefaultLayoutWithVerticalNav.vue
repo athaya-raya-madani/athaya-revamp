@@ -157,7 +157,7 @@ onMounted(() => {
         :item="{
           title: 'Kirim Data SLIK OJK',
           icon: 'mdi-account-arrow-right',
-          to: '/data-slik',
+          to: '/antrian-slik',
         }"
       />
       <VerticalNavLink

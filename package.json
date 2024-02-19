@@ -16,6 +16,7 @@
     "@casl/ability": "^6.2.0",
     "@casl/vue": "^2.2.0",
     "@floating-ui/dom": "1.2.8",
+    "@mdi/font": "^7.4.47",
     "@vuepic/vue-datepicker": "^7.4.1",
     "@vueuse/core": "^10.1.2",
     "@vueuse/math": "^10.1.2",
