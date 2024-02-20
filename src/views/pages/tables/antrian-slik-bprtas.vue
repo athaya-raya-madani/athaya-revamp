@@ -52,7 +52,7 @@
         <td class="text-center">{{ verifikasi.tgllahir }}</td>
         <td class="text-center">{{ verifikasi.noktp }}</td>
         <td>
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-center">
             <VBtn :to="{ name: 'antrianbprtas.edit', params: { id: verifikasi.id } }" class="v-btn btn-sm bg-warning rounded-sm shadow border-0 me-2">
               Lihat
             </VBtn>

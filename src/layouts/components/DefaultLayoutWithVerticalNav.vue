@@ -48,7 +48,7 @@ onMounted(() => {
 <template>
   <VerticalNavLayout>
     <!-- 👉 navbar -->
-    <template #navbar="{ toggleVerticalOverlayNavActive }">
+    <template #navbar="{ toggleVerticalOverlayNavActive }" >
       <div class="d-flex h-100 align-center">
         <!-- 👉 Vertical nav toggle in overlay mode -->
         <IconBtn
@@ -103,40 +103,122 @@ onMounted(() => {
           to: '/dashboard',
         }"
       />
+      <!-- user cabang -->
+      <Dropdown title="Pengajuan Pinjaman" v-if="cabang" :style="{ display: cabang}" icon="mdi-list-status">
       <VerticalNavLink
-      v-if="cabang"
-      :item="{
-        title: 'Pemohon',
-        icon: 'mdi-account-cog-outline',
-        to: '/permohonans',
-      }"
-      :style="{ display: cabang }"
+        :item="{
+          title: 'Pengajuan SLIK OJK',
+          icon: 'mdi-account-cog-outline',
+          to: '/permohonans',
+        }"
       />
-      <!-- <VerticalNavLink
-      :item="{
-        title: 'Verifikasi & Approval',
-        icon: 'mdi-list-status',
-        to: '/verifikasi',
-      }"
-      /> -->
-        <!-- Verifikasi & Approval -->
+      <VerticalNavLink
+        :item="{
+          title: 'Status Permohonan Peminjaman',
+          icon: 'mdi-account-cog-outline',
+          to: '/status-peminjaman',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Upload Dokumen Pembiayaan',
+          icon: 'mdi-account-cog-outline',
+          to: '/upload-dokumen-pembiayaan',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Buat Memo Internal Pencairan',
+          icon: 'mdi-account-cog-outline',
+          to: '/memo-interlan',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Pengajuan Nasabah EX dan Existing RA',
+          icon: 'mdi-account-cog-outline',
+          to: '/permohonans-ra',
+        }"
+      />
+      </Dropdown>
+      <Dropdown title="Administrasi" v-if="cabang" :style="{ display: cabang}" icon="mdi-list-status">
+      <VerticalNavLink
+        :item="{
+          title: 'Pembatalan Pinjaman',
+          icon: 'mdi-account-cog-outline',
+          to: '/permohonans',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Meninggal Dunia',
+          icon: 'mdi-account-cog-outline',
+          to: '/status-peminjaman',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Pengajuan Pelunasan',
+          icon: 'mdi-account-cog-outline',
+          to: '/upload-dokumen-pembiayaan',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Hapus Debitur Meninggal Dunia',
+          icon: 'mdi-account-cog-outline',
+          to: '/memo-interlan',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Update Tanggal PK',
+          icon: 'mdi-account-cog-outline',
+          to: '/permohonans-ra',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Input Debitur Meninggal',
+          icon: 'mdi-account-cog-outline',
+          to: '/permohonans-ra',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Pembatalan Pengajuan SLIK',
+          icon: 'mdi-account-cog-outline',
+          to: '/permohonans-ra',
+        }"
+      />
+      </Dropdown>
+      <Dropdown title="Simulasi Kredit" v-if="cabang" :style="{ display: cabang}" icon="mdi-list-status">
+      <VerticalNavLink
+        :item="{
+          title: 'Simulasi Pengajuan Kredit[Kalsel]',
+          icon: 'mdi-account-cog-outline',
+          to: '/permohonans',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Simulasi Kredit Pensiun[BPR Panjawan]',
+          icon: 'mdi-account-cog-outline',
+          to: '/status-peminjaman',
+        }"
+      />
+      </Dropdown>
+      <!-- user cabang -->
+
       <!-- Verifikasi & Approval -->
-      <Dropdown title="Bank" v-if="bprtas" :style="{display: bprtas}" icon="mdi-bank-check">
+      <Dropdown title="Pengajuan Pinjaman" v-if="operasioal" :style="{ display: operasioal}" icon="mdi-list-status">
       <VerticalNavLink
         :item="{
-          title: 'Antrian Slik OJK',
-          icon: 'mdi-account-multiple-plus',
-          to: '/antrian-slik-bprtas',
+          title: 'Upload Dokumen Pembiayaan',
+          icon: 'mdi-upload',
+          to: '/upload-dokumen-pembiayaan',
         }"
       />
-      <VerticalNavLink
-        :item="{
-          title: 'Approval BANK',
-          icon: 'mdi-account-multiple-check',
-          to: '/history-analisa',
-        }"
-      />
-    <!-- Add more dropdown items as needed -->
       </Dropdown>
       <Dropdown title="Verifikasi & Approval" v-if="operasioal" :style="{ display: operasioal}" icon="mdi-list-status">
       <VerticalNavLink
@@ -176,6 +258,72 @@ onMounted(() => {
       />
     <!-- Add more dropdown items as needed -->
       </Dropdown>
+      <Dropdown title="Monitoring" v-if="operasioal" :style="{ display: operasioal}" icon="mdi-list-status">
+      <VerticalNavLink
+        :item="{
+          title: 'Monitoring Pinjaman',
+          icon: 'mdi-home-analytics',
+          to: '/monitoring-pinjaman',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Riwayat SLIK OJK',
+          icon: 'mdi-clipboard-text-clock-outline',
+          to: '/riwayat-slik',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Histori Status Berkas Dokumen',
+          icon: 'mdi-account-arrow-right',
+          to: '/history-slik',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Riwayat Pencarian Pinjaman',
+          icon: 'mdi-account-edit',
+          to: '/riwayat-pencairan',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Monitoring Status Antrian Nasabah',
+          icon: 'mdi-account-check',
+          to: '/monitoring-nasabah',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Monitoring Permohonan yang ditolak',
+          icon: 'mdi-account-check',
+          to: '/monitoring-ditolak',
+        }"
+      />
+    <!-- Add more dropdown items as needed -->
+      </Dropdown>
+      <!-- Verifikasi & Approval -->
+      <!-- bank or vendor -->
+      <Dropdown title="Bank" v-if="bprtas" :style="{display: bprtas}" icon="mdi-bank-check">
+      <VerticalNavLink
+        :item="{
+          title: 'Antrian Slik OJK',
+          icon: 'mdi-account-multiple-plus',
+          to: '/antrian-slik-bprtas',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Approval BANK',
+          icon: 'mdi-account-multiple-check',
+          to: '/history-analisa',
+        }"
+      />
+    <!-- Add more dropdown items as needed -->
+      </Dropdown>
+      <!-- bank or vendor -->
+
       <!-- 👉 Pages -->
       <VerticalNavSectionTitle
         :item="{

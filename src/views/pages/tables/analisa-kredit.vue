@@ -52,7 +52,7 @@
         <td class="text-center">{{ verifikasi.tgllahir }}</td>
         <td class="text-center">{{ verifikasi.noktp }}</td>
         <td>
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-center">
             <VBtn :to="{ name: 'analisa.edit', params: { id: verifikasi.id } }" class="v-btn btn-sm rounded-sm shadow border-0 me-2">
               Lihat
             </VBtn>
