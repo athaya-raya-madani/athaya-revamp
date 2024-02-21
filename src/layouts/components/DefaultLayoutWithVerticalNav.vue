@@ -26,7 +26,7 @@ const upgradeBanner = computed(() => {
 const cabang = computed(()=> {
   return idklppengguna.value !== '2' ? 'none' : 'block' ;
 })
-const operasioal = computed(()=> {
+const operasional = computed(()=> {
   return idklppengguna.value !== '11' ? 'none' : 'block' ;
 })
 
@@ -211,7 +211,7 @@ onMounted(() => {
       <!-- user cabang -->
 
       <!-- Verifikasi & Approval -->
-      <Dropdown title="Pengajuan Pinjaman" v-if="operasioal" :style="{ display: operasioal}" icon="mdi-list-status">
+      <Dropdown title="Pengajuan Pinjaman" v-if="operasional" :style="{ display: operasional}" icon="mdi-list-status">
       <VerticalNavLink
         :item="{
           title: 'Upload Dokumen Pembiayaan',
@@ -220,7 +220,7 @@ onMounted(() => {
         }"
       />
       </Dropdown>
-      <Dropdown title="Verifikasi & Approval" v-if="operasioal" :style="{ display: operasioal}" icon="mdi-list-status">
+      <Dropdown title="Verifikasi & Approval" v-if="operasional" :style="{ display: operasional}" icon="mdi-list-status">
       <VerticalNavLink
         :item="{
           title: 'Analisa Kredit',
@@ -253,12 +253,12 @@ onMounted(() => {
         :item="{
           title: 'Kirim Hasil SLIK ke Cabang',
           icon: 'mdi-account-check',
-          to: '/slik-cabang',
+          to: '/antrian-hasil-slik',
         }"
       />
     <!-- Add more dropdown items as needed -->
       </Dropdown>
-      <Dropdown title="Monitoring" v-if="operasioal" :style="{ display: operasioal}" icon="mdi-list-status">
+      <Dropdown title="Monitoring" v-if="operasional" :style="{ display: operasional}" icon="mdi-list-status">
       <VerticalNavLink
         :item="{
           title: 'Monitoring Pinjaman',
@@ -318,6 +318,30 @@ onMounted(() => {
           title: 'Approval BANK',
           icon: 'mdi-account-multiple-check',
           to: '/history-analisa',
+        }"
+      />
+    <!-- Add more dropdown items as needed -->
+      </Dropdown>
+      <Dropdown title="Monitoring Bank" v-if="bprtas" :style="{display: bprtas}" icon="mdi-bank-check">
+      <VerticalNavLink
+        :item="{
+          title: 'Riwayat Slik OJK',
+          icon: 'mdi-account-multiple-plus',
+          to: '/riwayat-slik-bprtas',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Riwayat Approval BANK',
+          icon: 'mdi-account-multiple-check',
+          to: '/riwayat-approval-bprtas',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Monitoring Pencairan Pinjaman',
+          icon: 'mdi-account-group',
+          to: '/riwayat-pinjaman-bprtas',
         }"
       />
     <!-- Add more dropdown items as needed -->

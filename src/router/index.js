@@ -61,6 +61,26 @@ const router = createRouter({
             requiresAuth: true,
           },
         },
+        {
+          path: 'antrian-hasil-slik',
+          name: 'antrian-hasil-slik',
+          component: () => import('../pages/antrian-hasil-slik.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'antrian-hasil-slik/:id/view',
+          name: 'hasilslik.edit',
+          component: () => import('../pages/antrianEditSlik.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+
+        //tutup antrian slik 
+
+
         // antrian bank bpr
         {
           path: 'antrian-slik-bprtas',
