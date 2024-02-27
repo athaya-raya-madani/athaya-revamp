@@ -81,7 +81,7 @@ import api from "../../../api";
   const jwmaksimal = ref("");
   const bungaeff = ref("");
   const plafmaksimal = ref("");
-  const plafondbiaya = ref("");
+  const Plafondbiaya = ref("");
   const tgltakeover = ref("");
   const tgl_kuasadebet = ref("");
   const pelunasanke = ref("");
@@ -171,7 +171,7 @@ import api from "../../../api";
       jwmaksimal.value = data.jwmaksimal;
       bungaeff.value = data.bungaeff;
       plafmaksimal.value = data.plafmaksimal;
-      plafondbiaya.value = data.plafondbiaya;
+      Plafondbiaya.value = data.Plafondbiaya;
       tgltakeover.value = new Date(data.tgltakeover);
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
@@ -303,7 +303,7 @@ import api from "../../../api";
     formData.append("jwmaksimal", jwmaksimal.value);
     formData.append("bungaeff", bungaeff.value);
     formData.append("plafmaksimal", plafmaksimal.value);
-    formData.append("plafondbiaya", plafondbiaya.value);
+    formData.append("Plafondbiaya", Plafondbiaya.value);
     formData.append("tgltakeover", formattedTgltakeover);
     formData.append("tgl_kuasadebet", formattedTglkuasadebet);
     formData.append("pelunasanke", pelunasanke.value);
@@ -546,7 +546,7 @@ import api from "../../../api";
         <VTextField v-model="plafmaksimal" label="Plafond Maksimal" placeholder="Plafond Maksimal" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="plafondbiaya" label="Plafond Biaya" placeholder="Masukkan Nominal plafondbiaya" />
+        <VTextField v-model="Plafondbiaya" label="Plafond Biaya" placeholder="Masukkan Nominal Plafondbiaya" />
       </VCol>
       <VCol cols="12" md="6">
         <VueDatePicker v-model="tgltakeover" type="date" format="yyyy-MM-dd" label="Tanggal Take Over" placeholder="Tanggal Take Over" v-bind:enable-time-picker="false"/>
