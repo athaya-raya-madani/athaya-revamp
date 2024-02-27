@@ -89,7 +89,12 @@ import api from "../../../api";
   const umurthn = ref(null);
   const umurbln = ref(null);
   const umurhari = ref(null);
-  const kdsumberdana = ref(null);
+
+    // Define reactive variables for fees
+    const tatalaksana = ref(0); // Assuming this value is set elsewhere
+    const bukatabungan = ref(100000); // Assuming this value remains constant
+    const materai = ref(100000); // Assuming this value remains constant
+    const tabkop = ref(100000); 
 
   const dokumen = ref(null);
   const fisiknasabah = ref(null);
@@ -177,12 +182,13 @@ import api from "../../../api";
       bungaeff.value = data.bungaeff;
       plafmaksimal.value = data.plafmaksimal;
       Plafondbiaya.value = data.Plafondbiaya;
+      tatalaksana.value = data.tatalaksana;
       tgltakeover.value = new Date(data.tgltakeover);
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
 
-      calculateUmur();
+      // calculateUmur();
       // dokumen.value = data.dokumen;
       // fisiknasabah.value = data.fisiknasabah;
       // wawancara.value = data.wawancara;
@@ -198,16 +204,7 @@ import api from "../../../api";
     }
   });
 
-  // method for upload file and video 
-  // const fileName = computed(() => dokumen.value?.name);
-  // const fileExtension = computed(() => fileName.value?.substr(fileName.value?.lastIndexOf(".") + 1));
-  // const fileMimeType = computed(() => dokumen.value?.type);
 
-  // const uploadFile = (event) => {
-  //   dokumen.value = event.target.files[0];
-  //   fisiknasabah.value = event.target.files[1];
-  //   wawancara.value = event.target.files[2];
-  // };
   const uploadFile = (event, fileType) => {
   const selectedFile = event.target.files[0];
 
@@ -221,15 +218,15 @@ import api from "../../../api";
 };
 
       // logic for biaya
-      const calculateUmur = () => {
-        const birthdate = new Date(tgllahir.value);
-        const today = new Date();
-        const diff = today.getTime() - birthdate.getTime();
-        const ageDate = new Date(diff); // milliseconds from epoch
-        umurthn.value = Math.abs(ageDate.getUTCFullYear() - 1970);
-        umurbln.value = ageDate.getUTCMonth();
-        umurhari.value = ageDate.getUTCDate();
-      };
+      // const calculateUmur = () => {
+      //   const birthdate = new Date(tgllahir.value);
+      //   const today = new Date();
+      //   const diff = today.getTime() - birthdate.getTime();
+      //   const ageDate = new Date(diff); // milliseconds from epoch
+      //   umurthn.value = Math.abs(ageDate.getUTCFullYear() - 1970);
+      //   umurbln.value = ageDate.getUTCMonth();
+      //   umurhari.value = ageDate.getUTCDate();
+      // };
 
       // Mapping of sumberdana values to kdsumberdana values
       const sumberdanaMap = {
@@ -354,6 +351,10 @@ import api from "../../../api";
     formData.append("umurbln", umurbln.value);
     formData.append("umurhari", umurhari.value);
     formData.append("kdsumberdana", kdsumberdana);
+    formData.append("bukatabungan", bukatabungan.value);
+    formData.append("materai", materai).value;
+    formData.append("tatalaksana", tatalaksana.value);
+    formData.append("tabkop", tabkop.value);
     // formData.append("dokumen", dokumen.value);
     // formData.append("fisiknasabah", fisiknasabah.value);
     // formData.append("wawancara", wawancara.value);
@@ -410,7 +411,7 @@ import api from "../../../api";
         <VTextField v-model="tempatlahir" label="Tempat Lahir" placeholder="Tempat Lahir" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgllahir" type="date" @change="calculateUmur" format="yyyy-MM-dd" label="Tanggal Lahir" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgllahir" type="date"  format="yyyy-MM-dd" label="Tanggal Lahir" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
       </VCol>
       <!-- hidden field -->
       <!-- <VCol cols="12" md="6">
@@ -592,16 +593,13 @@ import api from "../../../api";
         <VTextField v-model="jangkawaktu" label="Jangka Waktu" placeholder="Jangka Waktu" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="jwmaksimal" label="Jangka Waktu Maksimal" placeholder="Jangka Waktu Maksimal" />
-      </VCol>
-      <VCol cols="12" md="6">
-        <VTextField v-model="bungaeff" label="Bungaeff" placeholder="Bungaeff" />
-      </VCol>
-      <VCol cols="12" md="6">
         <VTextField v-model="plafmaksimal" label="Plafond Maksimal" placeholder="Plafond Maksimal" />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="Plafondbiaya" label="Plafond Biaya" placeholder="Masukkan Nominal Plafondbiaya" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="tatalaksana" label="Tatalaksana" placeholder="Masukkan Nominal Tatalaksana" />
       </VCol>
       <VCol cols="12" md="6">
         <VueDatePicker v-model="tgltakeover" type="date" format="yyyy-MM-dd" label="Tanggal Take Over" placeholder="Tanggal Take Over" v-bind:enable-time-picker="false"/>

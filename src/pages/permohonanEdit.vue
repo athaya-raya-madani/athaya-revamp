@@ -1,6 +1,11 @@
 <script setup>
 import PermohonanEdit from '@/views/pages/form-layouts/PermohonanEdit.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
+const goBack = () => {
+  router.go(-1);
+  }
 </script>
 
 <template>
@@ -54,6 +59,9 @@ import PermohonanEdit from '@/views/pages/form-layouts/PermohonanEdit.vue';
         </VCard>
       </VCol> -->
       <VCol cols="12">
+        <VBtn type="reset" class="my-2" @click="goBack" >
+          <i class="mdi icon-lg mdi-arrow-left"></i> Back
+        </VBtn>
         <VCard title="Lengkapi Data">
           <VCardText>
             <PermohonanEdit />
