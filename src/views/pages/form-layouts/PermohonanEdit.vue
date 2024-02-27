@@ -86,6 +86,10 @@ import api from "../../../api";
   const tgl_kuasadebet = ref("");
   const pelunasanke = ref("");
   const marketing = ref("");
+  const umurthn = ref(null);
+  const umurbln = ref(null);
+  const umurhari = ref(null);
+
   const dokumen = ref(null);
   const fisiknasabah = ref(null);
   const wawancara = ref(null);
@@ -176,6 +180,8 @@ import api from "../../../api";
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
+
+      calculateUmur();
       // dokumen.value = data.dokumen;
       // fisiknasabah.value = data.fisiknasabah;
       // wawancara.value = data.wawancara;
@@ -212,6 +218,18 @@ import api from "../../../api";
     wawancara.value = selectedFile;
   }
 };
+
+      // logic for biaya
+      const calculateUmur = () => {
+        const birthdate = new Date(tgllahir.value);
+        const today = new Date();
+        const diff = today.getTime() - birthdate.getTime();
+        const ageDate = new Date(diff); // milliseconds from epoch
+        umurthn.value = Math.abs(ageDate.getUTCFullYear() - 1970);
+        umurbln.value = ageDate.getUTCMonth();
+        umurhari.value = ageDate.getUTCDate();
+      };
+
 
 
   // Update Pemohon function
@@ -308,6 +326,9 @@ import api from "../../../api";
     formData.append("tgl_kuasadebet", formattedTglkuasadebet);
     formData.append("pelunasanke", pelunasanke.value);
     formData.append("marketing", marketing.value);
+    formData.append("umurthn", umurthn.value);
+    formData.append("umurbln", umurbln.value);
+    formData.append("umurhari", umurhari.value);
     // formData.append("dokumen", dokumen.value);
     // formData.append("fisiknasabah", fisiknasabah.value);
     // formData.append("wawancara", wawancara.value);
@@ -364,8 +385,17 @@ import api from "../../../api";
         <VTextField v-model="tempatlahir" label="Tempat Lahir" placeholder="Tempat Lahir" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgllahir" type="date" format="yyyy-MM-dd" label="Tanggal Lahir" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgllahir" type="date" @change="calculateUmur" format="yyyy-MM-dd" label="Tanggal Lahir" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
       </VCol>
+      <!-- hidden field -->
+      <!-- <VCol cols="12" md="6">
+        <VTextField v-model="umurthn" type="hidden" label="Umur Tahun" placeholder="Umur" />
+      </VCol><VCol cols="12" md="6">
+        <VTextField v-model="umurbln" type="hidden" label="Umur Bulan" placeholder="Umur" />
+      </VCol><VCol cols="12" md="6">
+        <VTextField v-model="umurhari" type="hidden" label="Umur Hari" placeholder="Umur" />
+      </VCol> -->
+      <!-- tutup hidden field -->
       <VCol cols="12" md="6">
         <VTextField v-model="jeniskelamin" label="Jenis Kelamin" placeholder="Masukkan Jenis Kelamin" />
       </VCol>
@@ -452,7 +482,7 @@ import api from "../../../api";
         <VTextField v-model="dikeluaraktanikah" label="Tempat Dikeluarkan Akta Nikah" placeholder="Tempat Dikeluarkan Akta Nikah" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="tglkeluaraktanikah" label="Tanggal Keluar Akta Nikah" placeholder="Tanggal Keluar Akta Nikah" />
+        <VueDatePicker v-model="tglkeluaraktanikah" type="date"  format="yyyy-MM-dd" label="Tanggal Keluar Akta Nikah" placeholder="Tanggal Keluar Akta Nikah" v-bind:enable-time-picker="false"/>
       </VCol>
       <!-- tutup data pasangan -->
 
@@ -469,9 +499,9 @@ import api from "../../../api";
       <VCol cols="12" md="6">
         <VTextField v-model="noktpahliwaris" label="No KTP Ahli Waris" placeholder="No KTP Ahli Waris" />
       </VCol>
-      <VCol cols="12" md="6">
+      <!-- <VCol cols="12" md="6">
         <VTextField v-model="tempatlahirahliwaris" label="Ahli Waris" placeholder="Ahli Waris" />
-      </VCol>
+      </VCol> -->
       <VCol cols="12" md="6">
         <VTextField v-model="kk_ahliwaris" label="KK Ahli Waris" placeholder="KK Ahli Waris" />
       </VCol>
