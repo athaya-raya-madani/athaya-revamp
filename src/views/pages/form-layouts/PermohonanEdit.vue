@@ -89,6 +89,7 @@ import api from "../../../api";
   const umurthn = ref(null);
   const umurbln = ref(null);
   const umurhari = ref(null);
+  const kdsumberdana = ref(null);
 
   const dokumen = ref(null);
   const fisiknasabah = ref(null);
@@ -230,11 +231,34 @@ import api from "../../../api";
         umurhari.value = ageDate.getUTCDate();
       };
 
+      // Mapping of sumberdana values to kdsumberdana values
+      const sumberdanaMap = {
+        "BPR PANJAWAN": "PAN",
+        "BPR TAS": "TAS",
+        "BANK KALSEL": "KSL",
+        "BPR SINAR TERANG": "BSS",
+        "ARM": "ARM",
+        "KOPERASI SAM": "SAM"
+      };
+
+      // Logic to map sumberdana to kdsumberdana
+      const mapSumberdanaToKdsumberdana = (sumberdana) => {
+        if (sumberdanaMap.hasOwnProperty(sumberdana)) {
+          return sumberdanaMap[sumberdana];
+        } else {
+          return "";
+        }
+      };
+
 
 
   // Update Pemohon function
   const updatePemohon = async () => {
     try {
+
+      // Logic to map sumberdana to kdsumberdana
+    const kdsumberdana = mapSumberdanaToKdsumberdana(sumberdana.value);
+
       // format tgllahir for year,month,date
     const formattedTgllahir = tgllahir.value.toISOString().split('T')[0];
     const formattedTgllahirpasangan = tgllahirpasangan.value.toISOString().split('T')[0];
@@ -329,6 +353,7 @@ import api from "../../../api";
     formData.append("umurthn", umurthn.value);
     formData.append("umurbln", umurbln.value);
     formData.append("umurhari", umurhari.value);
+    formData.append("kdsumberdana", kdsumberdana);
     // formData.append("dokumen", dokumen.value);
     // formData.append("fisiknasabah", fisiknasabah.value);
     // formData.append("wawancara", wawancara.value);
