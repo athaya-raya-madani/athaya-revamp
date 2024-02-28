@@ -78,9 +78,9 @@ import api from "../../../api";
   const kreditsebelumnya = ref("");
   const namakantorbayar = ref("");
   const jangkawaktu = ref("");
-  const jwmaksimal = ref("");
-  const bungaeff = ref("");
-  const plafmaksimal = ref("");
+  // const jwmaksimal = ref("");
+  // const bungaeff = ref("");
+  // const plafmaksimal = ref("");
   const Plafondbiaya = ref("");
   const tgltakeover = ref("");
   const tgl_kuasadebet = ref("");
@@ -92,9 +92,9 @@ import api from "../../../api";
 
     // Define reactive variables for fees
     const tatalaksana = ref(0); // Assuming this value is set elsewhere
-    const bukatabungan = ref(100000); // Assuming this value remains constant
-    const materai = ref(100000); // Assuming this value remains constant
-    const tabkop = ref(100000); 
+    // const bukatabungan = ref(100000); // Assuming this value remains constant
+    // const materai = ref(100000); // Assuming this value remains constant
+    // const tabkop = ref(100000); 
 
   const dokumen = ref(null);
   const fisiknasabah = ref(null);
@@ -178,9 +178,9 @@ import api from "../../../api";
       kreditsebelumnya.value = data.kreditsebelumnya;
       namakantorbayar.value = data.namakantorbayar;
       jangkawaktu.value = data.jangkawaktu;
-      jwmaksimal.value = data.jwmaksimal;
-      bungaeff.value = data.bungaeff;
-      plafmaksimal.value = data.plafmaksimal;
+      // // jwmaksimal.value = data.jwmaksimal;
+      // // bungaeff.value = data.bungaeff;
+      // plafmaksimal.value = data.plafmaksimal;
       Plafondbiaya.value = data.Plafondbiaya;
       tatalaksana.value = data.tatalaksana;
       tgltakeover.value = new Date(data.tgltakeover);
@@ -188,7 +188,7 @@ import api from "../../../api";
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
 
-      // calculateUmur();
+      calculateUmur();
       // dokumen.value = data.dokumen;
       // fisiknasabah.value = data.fisiknasabah;
       // wawancara.value = data.wawancara;
@@ -218,15 +218,15 @@ import api from "../../../api";
 };
 
       // logic for biaya
-      // const calculateUmur = () => {
-      //   const birthdate = new Date(tgllahir.value);
-      //   const today = new Date();
-      //   const diff = today.getTime() - birthdate.getTime();
-      //   const ageDate = new Date(diff); // milliseconds from epoch
-      //   umurthn.value = Math.abs(ageDate.getUTCFullYear() - 1970);
-      //   umurbln.value = ageDate.getUTCMonth();
-      //   umurhari.value = ageDate.getUTCDate();
-      // };
+      const calculateUmur = () => {
+        const birthdate = new Date(tgllahir.value);
+        const today = new Date();
+        const diff = today.getTime() - birthdate.getTime();
+        const ageDate = new Date(diff); // milliseconds from epoch
+        umurthn.value = Math.abs(ageDate.getUTCFullYear() - 1970);
+        umurbln.value = ageDate.getUTCMonth();
+        umurhari.value = ageDate.getUTCDate();
+      };
 
       // Mapping of sumberdana values to kdsumberdana values
       const sumberdanaMap = {
@@ -339,9 +339,9 @@ import api from "../../../api";
     formData.append("kreditsebelumnya", kreditsebelumnya.value);
     formData.append("namakantorbayar", namakantorbayar.value);
     formData.append("jangkawaktu", jangkawaktu.value);
-    formData.append("jwmaksimal", jwmaksimal.value);
-    formData.append("bungaeff", bungaeff.value);
-    formData.append("plafmaksimal", plafmaksimal.value);
+    // // formData.append("jwmaksimal", jwmaksimal.value);
+    // // formData.append("bungaeff", bungaeff.value);
+    // formData.append("plafmaksimal", plafmaksimal.value);
     formData.append("Plafondbiaya", Plafondbiaya.value);
     formData.append("tgltakeover", formattedTgltakeover);
     formData.append("tgl_kuasadebet", formattedTglkuasadebet);
@@ -351,10 +351,10 @@ import api from "../../../api";
     formData.append("umurbln", umurbln.value);
     formData.append("umurhari", umurhari.value);
     formData.append("kdsumberdana", kdsumberdana);
-    formData.append("bukatabungan", bukatabungan.value);
-    formData.append("materai", materai).value;
+    // formData.append("bukatabungan", bukatabungan.value);
+    // formData.append("materai", materai).value;
     formData.append("tatalaksana", tatalaksana.value);
-    formData.append("tabkop", tabkop.value);
+    // formData.append("tabkop", tabkop.value);
     // formData.append("dokumen", dokumen.value);
     // formData.append("fisiknasabah", fisiknasabah.value);
     // formData.append("wawancara", wawancara.value);
@@ -592,9 +592,9 @@ import api from "../../../api";
       <VCol cols="12" md="6">
         <VTextField v-model="jangkawaktu" label="Jangka Waktu" placeholder="Jangka Waktu" />
       </VCol>
-      <VCol cols="12" md="6">
+      <!-- <VCol cols="12" md="6">
         <VTextField v-model="plafmaksimal" label="Plafond Maksimal" placeholder="Plafond Maksimal" />
-      </VCol>
+      </VCol> -->
       <VCol cols="12" md="6">
         <VTextField v-model="Plafondbiaya" label="Plafond Biaya" placeholder="Masukkan Nominal Plafondbiaya" />
       </VCol>

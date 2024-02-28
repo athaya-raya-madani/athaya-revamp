@@ -1,6 +1,12 @@
 <script setup>
 import PermohonanCreate from '@/views/pages/form-layouts/PermohonanCreate.vue';
+import '@mdi/font/css/materialdesignicons.min.css';
+import { useRouter } from 'vue-router';
 
+const router = useRouter;
+const goBack = () => {
+  router.go(-1);
+}
 </script>
 
 <template>
@@ -54,6 +60,9 @@ import PermohonanCreate from '@/views/pages/form-layouts/PermohonanCreate.vue';
         </VCard>
       </VCol> -->
       <VCol cols="12">
+        <VBtn type="reset" class="my-2" @click="goBack" >
+          <i class="mdi icon-lg mdi-arrow-left"></i> Back
+        </VBtn>
         <VCard title="Masukkan Data">
           <VCardText>
             <PermohonanCreate />

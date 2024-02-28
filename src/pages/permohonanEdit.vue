@@ -1,5 +1,6 @@
 <script setup>
 import PermohonanEdit from '@/views/pages/form-layouts/PermohonanEdit.vue';
+import '@mdi/font/css/materialdesignicons.min.css';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
