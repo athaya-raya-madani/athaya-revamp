@@ -86,6 +86,7 @@ import api from "../../../api";
   const tgl_kuasadebet = ref("");
   const pelunasanke = ref("");
   const marketing = ref("");
+  const instansipensiun = ref("");
   const umurthn = ref(null);
   const umurbln = ref(null);
   const umurhari = ref(null);
@@ -187,6 +188,7 @@ import api from "../../../api";
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
+      instansipensiun.value = data.instansipensiun;
 
       calculateUmur();
       // dokumen.value = data.dokumen;
@@ -351,6 +353,7 @@ import api from "../../../api";
     formData.append("umurbln", umurbln.value);
     formData.append("umurhari", umurhari.value);
     formData.append("kdsumberdana", kdsumberdana);
+    formData.append("instansipensiun", instansipensiun.value);
     // formData.append("bukatabungan", bukatabungan.value);
     // formData.append("materai", materai).value;
     formData.append("tatalaksana", tatalaksana.value);
@@ -525,9 +528,6 @@ import api from "../../../api";
       <VCol cols="12" md="6">
         <VTextField v-model="noktpahliwaris" label="No KTP Ahli Waris" placeholder="No KTP Ahli Waris" />
       </VCol>
-      <!-- <VCol cols="12" md="6">
-        <VTextField v-model="tempatlahirahliwaris" label="Ahli Waris" placeholder="Ahli Waris" />
-      </VCol> -->
       <VCol cols="12" md="6">
         <VTextField v-model="kk_ahliwaris" label="KK Ahli Waris" placeholder="KK Ahli Waris" />
       </VCol>
@@ -585,6 +585,9 @@ import api from "../../../api";
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="kreditsebelumnya" label="Kantor Bayar Lama" placeholder="Kantor Bayar Lama" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="instansipensiun" label="Instansi Pensiun" placeholder="Instansi Pensiun" />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="namakantorbayar" label="Kantor Bayar Baru" placeholder="Kantor Bayar Baru" />
