@@ -87,6 +87,7 @@ import api from "../../../api";
   const pelunasanke = ref("");
   const marketing = ref("");
   const instansipensiun = ref("");
+  const kaliangsuran = ref(0);
   const umurthn = ref(null);
   const umurbln = ref(null);
   const umurhari = ref(null);
@@ -189,6 +190,7 @@ import api from "../../../api";
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
       instansipensiun.value = data.instansipensiun;
+      kaliangsuran.value = data.kaliangsuran;
 
       calculateUmur();
       // dokumen.value = data.dokumen;
@@ -354,6 +356,7 @@ import api from "../../../api";
     formData.append("umurhari", umurhari.value);
     formData.append("kdsumberdana", kdsumberdana);
     formData.append("instansipensiun", instansipensiun.value);
+    formData.append("kaliangsuran", kaliangsuran.value);
     // formData.append("bukatabungan", bukatabungan.value);
     // formData.append("materai", materai).value;
     formData.append("tatalaksana", tatalaksana.value);
@@ -594,6 +597,14 @@ import api from "../../../api";
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="jangkawaktu" label="Jangka Waktu" placeholder="Jangka Waktu" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VSelect
+          v-model="kaliangsuran"
+          label="Kali Angsuran"
+          placeholder="Pilih Kali Angsuran"
+          :items="['1', '2', '3', '4', '5']"
+        />
       </VCol>
       <!-- <VCol cols="12" md="6">
         <VTextField v-model="plafmaksimal" label="Plafond Maksimal" placeholder="Plafond Maksimal" />
