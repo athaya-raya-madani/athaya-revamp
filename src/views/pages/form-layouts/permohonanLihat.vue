@@ -78,9 +78,9 @@ import api from "../../../api";
   const kreditsebelumnya = ref("");
   const namakantorbayar = ref("");
   const jangkawaktu = ref("");
-  // const jwmaksimal = ref("");
-  // const bungaeff = ref("");
-  // const plafmaksimal = ref("");
+  const jwmaksimal = ref("");
+  const bungaeff = ref("");
+  const plafmaksimal = ref("");
   const Plafondbiaya = ref("");
   const tgltakeover = ref("");
   const tgl_kuasadebet = ref("");
@@ -88,21 +88,77 @@ import api from "../../../api";
   const marketing = ref("");
   const instansipensiun = ref("");
   const kaliangsuran = ref(0);
-  const umurthn = ref(null);
-  const umurbln = ref(null);
-  const umurhari = ref(null);
+  const tatalaksana = ref("");
+  const bybank = ref("");
+  const byadm = ref("");
+  const byasuransi = ref("");
+  const bukatabungan = ref("");
+  const simpananwajib = ref("");
+  const potangsuran = ref("");
+  const retensi = ref("");
 
-    // Define reactive variables for fees
-    const tatalaksana = ref(0); // Assuming this value is set elsewhere
-    // const bukatabungan = ref(100000); // Assuming this value remains constant
-    // const materai = ref(100000); // Assuming this value remains constant
-    // const tabkop = ref(100000); 
 
-  const dokumen = ref(null);
-  const fisiknasabah = ref(null);
-  const wawancara = ref(null);
-  const formDisabled = ref(false);
-  // tutup data pemohon pembiayaan dan referensi
+  // function for every format number
+  // Function to format number into Indonesian Rupiah (IDR) format
+  function formatIDR(number, precision) {
+  // Check if the number is not empty or undefined
+  if (!number && number !== 0) return '';
+
+  // Convert the number to string
+  let strNumber = Number(number).toFixed(precision);
+
+  // Split the string into array of characters
+  let chars = strNumber.split('');
+
+  // Initialize a variable to store formatted number
+  let formattedNumber = '';
+
+  // Flag to indicate whether the decimal point is reached
+  let decimalReached = false;
+
+  // Counter to track the number of zeros after the decimal point
+  let zerosCount = 0;
+
+  // Track the position of the decimal point
+  let decimalPosition = 0;
+
+  // Iterate through each character in the array
+  for (let i = chars.length - 1; i >= 0; i--) {
+    // Check if the current character is the decimal point
+    if (chars[i] === '.') {
+      // Set flag to true indicating decimal point is reached
+      decimalReached = true;
+      // Add the decimal point to the formatted number
+      formattedNumber = '.' + formattedNumber;
+      // Store the position of the decimal point
+      decimalPosition = formattedNumber.length - 1;
+    } else {
+      // Add the current character to the formatted number
+      formattedNumber = chars[i] + formattedNumber;
+      // Increment the zeros count if decimal point is reached
+      if (decimalReached && chars[i] === '0') {
+        zerosCount++;
+      } else {
+        // Reset the zeros count if non-zero digit is encountered
+        zerosCount = 0;
+      }
+      // Add a comma after every 3 digits from the right, except for the last group of digits
+      if ((chars.length - i) % 3 === 0 && i !== 0) {
+        formattedNumber = '.' + formattedNumber;
+      }
+    }
+
+    // Remove the trailing zeros after the decimal point based on precision
+    if (decimalReached && zerosCount >= precision) {
+      formattedNumber = formattedNumber.slice(0, decimalPosition - precision);
+      zerosCount--;
+    }
+  }
+
+  // Return the formatted number with 'IDR' prefix
+  return 'Rp. ' + formattedNumber;
+}
+
 
 
   const errors = ref([]);
@@ -181,28 +237,27 @@ import api from "../../../api";
       kreditsebelumnya.value = data.kreditsebelumnya;
       namakantorbayar.value = data.namakantorbayar;
       jangkawaktu.value = data.jangkawaktu;
-      // // jwmaksimal.value = data.jwmaksimal;
-      // // bungaeff.value = data.bungaeff;
-      // plafmaksimal.value = data.plafmaksimal;
-      Plafondbiaya.value = data.Plafondbiaya;
-      tatalaksana.value = data.tatalaksana;
       tgltakeover.value = new Date(data.tgltakeover);
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
       instansipensiun.value = data.instansipensiun;
-      kaliangsuran.value = data.kaliangsuran;
 
-      calculateUmur();
+      // biaya biaya
+      Plafondbiaya.value = data.Plafondbiaya;
+      tatalaksana.value = data.tatalaksana;
+      potangsuran.value = data.potangsuran;
+      bybank.value = data.bybank;
+      byadm.value = data.byadm;
+      retensi.value = data.retensi;
+      byasuransi.value = data.byasuransi;
+      // tutup biaya biaya
+      
       // dokumen.value = data.dokumen;
       // fisiknasabah.value = data.fisiknasabah;
       // wawancara.value = data.wawancara;
       // tutup data pemohon pembiayaan da referensi
 
-
-      console.log("file dokumen:", data.dokumen);
-      console.log("file fisik nasabah:", data.fisiknasabah);
-      console.log("file wawancara nasabah:", data.wawancara);
       console.log('Fetched data berhasil');
     } catch (error) {
       console.error('Error fetching data');
@@ -212,198 +267,12 @@ import api from "../../../api";
   });
 
 
-  const uploadFile = (event, fileType) => {
-  const selectedFile = event.target.files[0];
-
-  if (fileType === 'dokumen') {
-    dokumen.value = selectedFile;
-  } else if (fileType === 'fisiknasabah') {
-    fisiknasabah.value = selectedFile;
-  } else if (fileType === 'wawancara') {
-    wawancara.value = selectedFile;
-  }
-};
-
-      // logic for biaya
-      const calculateUmur = () => {
-        const birthdate = new Date(tgllahir.value);
-        const today = new Date();
-        const diff = today.getTime() - birthdate.getTime();
-        const ageDate = new Date(diff); // milliseconds from epoch
-        umurthn.value = Math.abs(ageDate.getUTCFullYear() - 1970);
-        umurbln.value = ageDate.getUTCMonth();
-        umurhari.value = ageDate.getUTCDate();
-      };
-
-      // Mapping of sumberdana values to kdsumberdana values
-      const sumberdanaMap = {
-        "BPR PANJAWAN": "PAN",
-        "BPR TAS": "TAS",
-        "BANK KALSEL": "KSL",
-        "BPR SINAR TERANG": "BSS",
-        "ARM": "ARM",
-        "KOPERASI SAM": "SAM"
-      };
-
-      // Logic to map sumberdana to kdsumberdana
-      const mapSumberdanaToKdsumberdana = (sumberdana) => {
-        if (sumberdanaMap.hasOwnProperty(sumberdana)) {
-          return sumberdanaMap[sumberdana];
-        } else {
-          return "";
-        }
-      };
-
-
-
-  // Update Pemohon function
-  const updatePemohon = async () => {
-    try {
-
-      // Logic to map sumberdana to kdsumberdana
-    const kdsumberdana = mapSumberdanaToKdsumberdana(sumberdana.value);
-
-      // format tgllahir for year,month,date
-    const formattedTgllahir = tgllahir.value.toISOString().split('T')[0];
-    const formattedTgllahirpasangan = tgllahirpasangan.value.toISOString().split('T')[0];
-    const formattedTglkkpasangan = tglkkpasangan.value.toISOString().split('T')[0];
-    const formattedTglkeluaraktanikah = tglkeluaraktanikah.value.toISOString().split('T')[0];
-    const formattedTgllahirahliwaris = tgllahir_ahliwaris.value.toISOString().split('T')[0];
-    const formattedTglahliwaris = tgl_ahliwaris.value.toISOString().split('T')[0];
-    const formattedTglsk = tanggalsk.value.toISOString().split('T')[0];
-    const formattedTgltmtpensiun = tmtpensiun.value.toISOString().split('T')[0];
-    const formattedTgllahirkarip = tgllahirkarip.value.toISOString().split('T')[0];
-    const formattedTgltakeover = tgltakeover.value.toISOString().split('T')[0];
-    const formattedTglkuasadebet = tgl_kuasadebet.value.toISOString().split('T')[0];
-    const formData = new FormData();
-
-    // data identitas pemohon
-    formData.append("nopensiun", nopensiun.value);
-    formData.append("noktp", noktp.value);
-    formData.append("namaktp", namaktp.value);
-    formData.append("tempatlahir", tempatlahir.value);
-    formData.append("tgllahir", formattedTgllahir);
-    formData.append("jeniskelamin", jeniskelamin.value);
-    formData.append("statuskawin", statuskawin.value);
-    formData.append("agama", agama.value);
-    formData.append("alamat", alamat.value);
-    formData.append("kelurahan", kelurahan.value);
-    formData.append("kecamatan", kecamatan.value);
-    formData.append("kabupaten", kabupaten.value);
-    formData.append("provinsi", provinsi.value);
-    formData.append("kodepos", kodepos.value);
-    formData.append("telepon", telepon.value);
-    formData.append("nohp", nohp.value);
-    formData.append("lama_bekerja", lama_bekerja.value);
-    formData.append("statusrumah", statusrumah.value);
-    formData.append("mulaimenempati", mulaimenempati.value);
-    formData.append("nmibukandung", nmibukandung.value);
-    formData.append("norekpemohon", norekpemohon.value);
-    formData.append("namabankpemohon", namabankpemohon.value);
-    formData.append("status_hubungan", status_hubungan.value);
-    // tutup data identitas pemohon
-    
-    // data pasangan
-    formData.append("nmpasangan", nmpasangan.value);
-    formData.append("tempatlahirpasangan", tempatlahirpasangan.value);
-    formData.append("tgllahirpasangan", formattedTgllahirpasangan);
-    formData.append("noktppasangan", noktppasangan.value);
-    formData.append("nokkpasangan", nokkpasangan.value);
-    formData.append("tglkkpasangan", formattedTglkkpasangan);
-    formData.append("noaktanikah", noaktanikah.value);
-    formData.append("nourutnikah", nourutnikah.value);
-    formData.append("dikeluaraktanikah", dikeluaraktanikah.value);
-    formData.append("tglkeluaraktanikah", formattedTglkeluaraktanikah);
-    // tutup data pasangan
-    
-    // data ahliwaris
-    formData.append("ahliwaris", ahliwaris.value);
-    formData.append("tempatlahirahliwaris", tempatlahirahliwaris.value);
-    formData.append("tgllahir_ahliwaris", formattedTgllahirahliwaris);
-    formData.append("noktpahliwaris", noktpahliwaris.value);
-    formData.append("kk_ahliwaris", kk_ahliwaris.value);
-    formData.append("tgl_ahliwaris", formattedTglahliwaris);
-    // tutup data ahliwaris
-    
-    // data pembiayaan
-    formData.append("noskpensiun", noskpensiun.value);
-    formData.append("tanggalsk", formattedTglsk);
-    formData.append("terbitsk", terbitsk.value);
-    formData.append("tmtpensiun", formattedTgltmtpensiun);
-    formData.append("nokarip", nokarip.value);
-    formData.append("npwp", npwp.value);
-    formData.append("kdpenggunaan", kdpenggunaan.value);
-    formData.append("kdpenggunaan2", kdpenggunaan2.value);
-    // tutup data pembiayaan
-    
-    // data pemohon pembiayaan dan referensi
-    formData.append("tgllahirkarip", formattedTgllahirkarip);
-    formData.append("gajisekarang", gajisekarang.value);
-    formData.append("sumberdana", sumberdana.value);
-    formData.append("jnspensiun", jnspensiun.value);
-    formData.append("statuspembiayaan", statuspembiayaan.value);
-    formData.append("nmasuransi", nmasuransi.value);
-    formData.append("kreditsebelumnya", kreditsebelumnya.value);
-    formData.append("namakantorbayar", namakantorbayar.value);
-    formData.append("jangkawaktu", jangkawaktu.value);
-    // // formData.append("jwmaksimal", jwmaksimal.value);
-    // // formData.append("bungaeff", bungaeff.value);
-    // formData.append("plafmaksimal", plafmaksimal.value);
-    formData.append("Plafondbiaya", Plafondbiaya.value);
-    formData.append("tgltakeover", formattedTgltakeover);
-    formData.append("tgl_kuasadebet", formattedTglkuasadebet);
-    formData.append("pelunasanke", pelunasanke.value);
-    formData.append("marketing", marketing.value);
-    formData.append("umurthn", umurthn.value);
-    formData.append("umurbln", umurbln.value);
-    formData.append("umurhari", umurhari.value);
-    formData.append("kdsumberdana", kdsumberdana);
-    formData.append("instansipensiun", instansipensiun.value);
-    formData.append("kaliangsuran", kaliangsuran.value);
-    // formData.append("bukatabungan", bukatabungan.value);
-    // formData.append("materai", materai).value;
-    formData.append("tatalaksana", tatalaksana.value);
-    // formData.append("tabkop", tabkop.value);
-    // formData.append("dokumen", dokumen.value);
-    // formData.append("fisiknasabah", fisiknasabah.value);
-    // formData.append("wawancara", wawancara.value);
-    if (dokumen.value) {
-            formData.append("dokumen", dokumen.value);
-    } 
-    if (fisiknasabah.value) {
-            formData.append("fisiknasabah", fisiknasabah.value);
-    } 
-    if (wawancara.value) {
-            formData.append("wawancara", wawancara.value);
-    } 
-
-    // tutup data pemohon pembiayaan dan referensi
-
-
-
-      const pemohon = await api.post(`/api/permohonan/${route.params.id}/update`, formData, { headers: { 'Content-Type' : 'multipart/form-data'}});
-
-      console.log('Updated Data:', pemohon.data);
-      console.log('File Dokumen: ', dokumen.value);
-      console.log('File Video Fisik: ', fisiknasabah.value);
-      console.log('File Wawancara: ', wawancara.value);
-      console.log('tanggal lahir: ', formattedTgllahir);
-      console.log('tanggal lahir pasangan: ', formattedTgllahirpasangan);
-      router.push({
-        path: '/permohonans'
-      });
-    } catch (error) {
-      errors.value = error.response ?.data || 'An error occurred while updating data.';
-      console.error('Error updating data:', error);
-    }
-  };
-  // const checkbox = ref(false)
-
+ 
 </script>
 
 
 <template>
-  <VForm @submit.prevent="updatePemohon()">
+  <VForm>
     <VRow>
 
       <!-- data identitas  -->
@@ -575,7 +444,7 @@ import api from "../../../api";
         <VueDatePicker v-model="tgllahirkarip" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Karip" :disabled="formDisabled" placeholder="Tanggal Lahir Karip" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="gajisekarang" label="Gaji Sekarang" :disabled="formDisabled" placeholder="Gaji Sekarang" />
+        <VTextField v-model="gajisekarang" :value="formatIDR(gajisekarang)" label="Gaji Sekarang" :disabled="formDisabled" placeholder="Gaji Sekarang" />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="sumberdana" label="Sumber Dana" :disabled="formDisabled" placeholder="Sumber Dana" />
@@ -604,19 +473,31 @@ import api from "../../../api";
       <VCol cols="12" md="6">
         <VSelect
           v-model="kaliangsuran"
-          label="Kali Angsuran"
-          :disabled="formDisabled" placeholder="Pilih Kali Angsuran"
-          :items="['1', '2', '3', '4', '5']"
         />
       </VCol>
       <!-- <VCol cols="12" md="6">
         <VTextField v-model="plafmaksimal" label="Plafond Maksimal" :disabled="formDisabled" placeholder="Plafond Maksimal" />
       </VCol> -->
       <VCol cols="12" md="6">
-        <VTextField v-model="Plafondbiaya" label="Plafond Biaya" :disabled="formDisabled" placeholder="Masukkan Nominal Plafondbiaya" />
+        <VTextField v-model="Plafondbiaya" :value="formatIDR(Plafondbiaya)" label="Plafond Biaya" :disabled="formDisabled" placeholder="Masukkan Nominal Plafondbiaya" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="tatalaksana" label="Tatalaksana" :disabled="formDisabled" placeholder="Masukkan Nominal Tatalaksana" />
+        <VTextField v-model="bybank" :value="formatIDR(bybank)" label="Biay Kemitraan" :disabled="formDisabled" placeholder="Biaya Kemitraan" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="byadm" :value="formatIDR(byadm)" label="Biaya Admin" :disabled="formDisabled" placeholder="Biaya Admin" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="potangsuran" :value="formatIDR(potangsuran)" label="Potongan Angsuran" :disabled="formDisabled" placeholder="Potongan Angsuran" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="retensi" :value="formatIDR(retensi)" label="Blokir Angsuran" :disabled="formDisabled" placeholder="Blokir Angsuran" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="byasuransi" :value="formatIDR(byasuransi)" label="Biaya Asuransi" :disabled="formDisabled" placeholder="Biaya Asuransi" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="tatalaksana" :value="formatIDR(tatalaksana)" label="Tatalaksana" :disabled="formDisabled" placeholder="Masukkan Nominal Tatalaksana" />
       </VCol>
       <VCol cols="12" md="6">
         <VueDatePicker v-model="tgltakeover" type="date" format="yyyy-MM-dd" label="Tanggal Take Over" :disabled="formDisabled" placeholder="Tanggal Take Over" v-bind:enable-time-picker="false"/>
