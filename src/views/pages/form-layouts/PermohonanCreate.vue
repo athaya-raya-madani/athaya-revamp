@@ -97,7 +97,7 @@ const submitFile = async () => {
     formData.append("nohp", nohp.value);
     formData.append("nmibukandung", nmibukandung.value);
     formData.append("marketing", marketing.value);
-    formData.append("plafondbiaya", plafondbiaya.value);
+    formData.append("Plafondbiaya", plafondbiaya.value);
     // Append the file separately
     if (dokslikojk.value) {
             formData.append("dokslikojk", dokslikojk.value);
@@ -129,7 +129,13 @@ const submitFile = async () => {
   <VForm @submit.prevent="submitFile" enctype="multipart/form-data">
     <VRow>
       <VCol cols="12" md="6">
-        <VTextField v-model="sumberdana" label="Sumber Dana" placeholder="Sumber Dana" />
+        <VSelect
+          v-model="sumberdana"
+          label="Sumber Dana"
+          placeholder="Pilih Sumber Dana"
+          :items="['BPR SINAR TERANG', 'BPR PANJAWAN', 'BPR TAS', 'BANK KALSEL', 'ARM', 'KOPERASI SAM']"
+        />
+        <!-- <VTextField v-model="sumberdana" label="Sumber Dana" placeholder="Sumber Dana" /> -->
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="nopensiun" label="No Pensiun" placeholder="No Pensiun" />
@@ -147,10 +153,22 @@ const submitFile = async () => {
         <VueDatePicker v-model="tgllahir" type="date" format="yyyy-MM-dd" label="Tanggal Lahir" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="jeniskelamin" label="Jenis Kelamin" placeholder="Masukkan Jenis Kelamin" />
+        <VSelect
+          v-model="jeniskelamin"
+          label="Jenis Kelamin"
+          placeholder="Jenis Kelamin"
+          :items="['LAKI-LAKI', 'PEREMPUAN']"
+        />
+        <!-- <VTextField v-model="jeniskelamin" label="Jenis Kelamin" placeholder="Masukkan Jenis Kelamin" /> -->
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="statuskawin" label="Status Kawin" placeholder="Status Kawin" />
+        <VSelect
+          v-model="statuskawin"
+          label="Status Kawin"
+          placeholder="Status Kawin"
+          :items="['TIDAK KAWIN', 'KAWIN', 'DUDA', 'JANDA']"
+        />
+        <!-- <VTextField v-model="statuskawin" label="Status Kawin" placeholder="Status Kawin" /> -->
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="nmpasangan" label="Nama Pasangan" placeholder="Nama Pasangan" />
@@ -165,7 +183,13 @@ const submitFile = async () => {
         <VTextField v-model="noktppasangan" label="No KTP Pasangan" placeholder="No KTP Pasangan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="agama" label="Agama" placeholder="Agama" />
+        <VSelect
+          v-model="agama"
+          label="Agama"
+          placeholder="Agama"
+          :items="['ISLAM', 'KRISTEN', 'KATHOLIK', 'BUDHA', 'HINDU', 'KONGHUCU']"
+        />
+        <!-- <VTextField v-model="agama" label="Agama" placeholder="Agama" /> -->
       </VCol>
       <VCol cols="12" md="6">
         <VTextarea v-model="alamat" label="Alamat" placeholder="Alamat" />

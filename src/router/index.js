@@ -44,6 +44,16 @@ const router = createRouter({
             requiresAuth: true,
           },
         },
+        // lihat data debitur
+        {
+          path: 'permohonans/:id/view',
+          name: 'permohonans.lihat',
+          component: () => import('../pages/permohonanLihat.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        // tutup lihat data debitur
         // antrian Slik
         {
           path: 'antrian-slik',

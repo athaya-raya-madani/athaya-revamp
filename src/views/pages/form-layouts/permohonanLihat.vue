@@ -101,6 +101,7 @@ import api from "../../../api";
   const dokumen = ref(null);
   const fisiknasabah = ref(null);
   const wawancara = ref(null);
+  const formDisabled = ref(false);
   // tutup data pemohon pembiayaan dan referensi
 
 
@@ -205,7 +206,9 @@ import api from "../../../api";
       console.log('Fetched data berhasil');
     } catch (error) {
       console.error('Error fetching data');
-    }
+    } finally {
+    formDisabled.value = false; // After data is fetched, disable the form fields
+  }
   });
 
 
@@ -405,284 +408,239 @@ import api from "../../../api";
 
       <!-- data identitas  -->
       <VCol cols="12" md="6">
-        <VTextField v-model="nopensiun" label="No Pensiun" placeholder="No Pensiun" />
+        <VTextField v-model="nopensiun" label="No Pensiun" :disabled="formDisabled" placeholder="No Pensiun" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="noktp" label="No KTP" placeholder="No KTP" />
+        <VTextField v-model="noktp" label="No KTP" :disabled="formDisabled" placeholder="No KTP" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="namaktp" label="Nama KTP" placeholder="Masukkan Nama sesuai KTP" />
+        <VTextField v-model="namaktp" label="Nama KTP" :disabled="formDisabled" placeholder="Masukkan Nama sesuai KTP" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="tempatlahir" label="Tempat Lahir" placeholder="Tempat Lahir" />
+        <VTextField v-model="tempatlahir" label="Tempat Lahir" :disabled="formDisabled" placeholder="Tempat Lahir" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgllahir" type="date"  format="yyyy-MM-dd" label="Tanggal Lahir" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgllahir" type="date"  format="yyyy-MM-dd" label="Tanggal Lahir" :disabled="formDisabled" placeholder="Tanggal Lahir" v-bind:enable-time-picker="false"/>
       </VCol>
       <!-- hidden field -->
-      <!-- <VCol cols="12" md="6">
-        <VTextField v-model="umurthn" type="hidden" label="Umur Tahun" placeholder="Umur" />
+      <VCol cols="12" md="6">
+        <VTextField v-model="umurthn" label="Umur Tahun" :disabled="formDisabled" placeholder="Umur" />
       </VCol><VCol cols="12" md="6">
-        <VTextField v-model="umurbln" type="hidden" label="Umur Bulan" placeholder="Umur" />
+        <VTextField v-model="umurbln" label="Umur Bulan" :disabled="formDisabled" placeholder="Umur" />
       </VCol><VCol cols="12" md="6">
-        <VTextField v-model="umurhari" type="hidden" label="Umur Hari" placeholder="Umur" />
-      </VCol> -->
+        <VTextField v-model="umurhari" label="Umur Hari" :disabled="formDisabled" placeholder="Umur" />
+      </VCol>
       <!-- tutup hidden field -->
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="jeniskelamin"
-          label="Jenis Kelamin"
-          placeholder="Jenis Kelamin"
-          :items="['LAKI-LAKI', 'PEREMPUAN']"
-        />
+        <VTextField v-model="jeniskelamin" label="Jenis Kelamin" :disabled="formDisabled" placeholder="Masukkan Jenis Kelamin" />
       </VCol>
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="statuskawin"
-          label="Status Kawin"
-          placeholder="Status Kawin"
-          :items="['TIDAK KAWIN', 'KAWIN', 'DUDA', 'JANDA']"
-        />
+        <VTextField v-model="statuskawin" label="Status Kawin" :disabled="formDisabled" placeholder="Status Kawin" />
       </VCol>
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="agama"
-          label="Agama"
-          placeholder="Agama"
-          :items="['ISLAM', 'KRISTEN', 'KATHOLIK', 'BUDHA', 'HINDU', 'KONGHUCU']"
-        />
+        <VTextField v-model="agama" label="Agama" :disabled="formDisabled" placeholder="Agama" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextarea v-model="alamat" label="Alamat" placeholder="Alamat" />
+        <VTextarea v-model="alamat" label="Alamat" :disabled="formDisabled" placeholder="Alamat" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kelurahan" label="Kelurahan" placeholder="Kelurahan" />
+        <VTextField v-model="kelurahan" label="Kelurahan" :disabled="formDisabled" placeholder="Kelurahan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kecamatan" label="Kecamatan" placeholder="Kecamatan" />
+        <VTextField v-model="kecamatan" label="Kecamatan" :disabled="formDisabled" placeholder="Kecamatan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kabupaten" label="Kabupaten" placeholder="Kabupaten" />
+        <VTextField v-model="kabupaten" label="Kabupaten" :disabled="formDisabled" placeholder="Kabupaten" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="provinsi" label="Provinsi" placeholder="Provinsi" />
+        <VTextField v-model="provinsi" label="Provinsi" :disabled="formDisabled" placeholder="Provinsi" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kodepos" label="Kode Pos" placeholder="Kode Pos" />
+        <VTextField v-model="kodepos" label="Kode Pos" :disabled="formDisabled" placeholder="Kode Pos" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="telepon" label="No Telepon" placeholder="No Telepon" />
+        <VTextField v-model="telepon" label="No Telepon" :disabled="formDisabled" placeholder="No Telepon" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="nohp" label="No HP" placeholder="No HP" />
+        <VTextField v-model="nohp" label="No HP" :disabled="formDisabled" placeholder="No HP" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="lama_bekerja" label="Lama bekerja" placeholder="Lama Bekerja" />
+        <VTextField v-model="lama_bekerja" label="Lama bekerja" :disabled="formDisabled" placeholder="Lama Bekerja" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="statusrumah" label="status rumah" placeholder="Status Rumah" />
+        <VTextField v-model="statusrumah" label="status rumah" :disabled="formDisabled" placeholder="Status Rumah" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="mulaimenempati" label="Mulai Menempati" placeholder="Mulai Menempati" />
+        <VTextField v-model="mulaimenempati" label="Mulai Menempati" :disabled="formDisabled" placeholder="Mulai Menempati" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="nmibukandung" label="Nama Ibu Kandung" placeholder="Nama Ibu Kandung" />
+        <VTextField v-model="nmibukandung" label="Nama Ibu Kandung" :disabled="formDisabled" placeholder="Nama Ibu Kandung" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="norekpemohon" label="No Rekengin Pemohon" placeholder="No Rekening Pemohon" />
+        <VTextField v-model="norekpemohon" label="No Rekengin Pemohon" :disabled="formDisabled" placeholder="No Rekening Pemohon" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="namabankpemohon" label="Nama Bank Pemohon" placeholder="Nama Bank Pemohon" />
+        <VTextField v-model="namabankpemohon" label="Nama Bank Pemohon" :disabled="formDisabled" placeholder="Nama Bank Pemohon" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="status_hubungan" label="Status Hubungan" placeholder="Status Hubungan" />
+        <VTextField v-model="status_hubungan" label="Status Hubungan" :disabled="formDisabled" placeholder="Status Hubungan" />
       </VCol>
       
       <!-- tutup data identitas -->
 
       <!-- data pasangan -->
       <VCol cols="12" md="6">
-        <VTextField v-model="nmpasangan" label="Nama Pasangan" placeholder="Nama Pasangan" />
+        <VTextField v-model="nmpasangan" label="Nama Pasangan" :disabled="formDisabled" placeholder="Nama Pasangan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="tempatlahirpasangan" label="Tempat Lahir Pasangan" placeholder="Tempat Lahir Pasangan" />
+        <VTextField v-model="tempatlahirpasangan" label="Tempat Lahir Pasangan" :disabled="formDisabled" placeholder="Tempat Lahir Pasangan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgllahirpasangan" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Pasangan" placeholder="Tanggal Lahir Pasangan" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgllahirpasangan" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Pasangan" :disabled="formDisabled" placeholder="Tanggal Lahir Pasangan" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="noktppasangan" label="No KTP Pasangan" placeholder="No KTP Pasangan" />
+        <VTextField v-model="noktppasangan" label="No KTP Pasangan" :disabled="formDisabled" placeholder="No KTP Pasangan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="nokkpasangan" label="No KK Pasangan" placeholder="No KK Pasangan" />
+        <VTextField v-model="nokkpasangan" label="No KK Pasangan" :disabled="formDisabled" placeholder="No KK Pasangan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tglkkpasangan" type="date" format="yyyy-MM-dd" label="Tanggal KK Pasangan" placeholder="Tanggal KK Pasangan" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tglkkpasangan" type="date" format="yyyy-MM-dd" label="Tanggal KK Pasangan" :disabled="formDisabled" placeholder="Tanggal KK Pasangan" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="noaktanikah" label="No Akta Nikah" placeholder="No Akta Nikah" />
+        <VTextField v-model="noaktanikah" label="No Akta Nikah" :disabled="formDisabled" placeholder="No Akta Nikah" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="nourutnikah" label="No Urut Nikah" placeholder="No Urut Nikah" />
+        <VTextField v-model="nourutnikah" label="No Urut Nikah" :disabled="formDisabled" placeholder="No Urut Nikah" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="dikeluaraktanikah" label="Tempat Dikeluarkan Akta Nikah" placeholder="Tempat Dikeluarkan Akta Nikah" />
+        <VTextField v-model="dikeluaraktanikah" label="Tempat Dikeluarkan Akta Nikah" :disabled="formDisabled" placeholder="Tempat Dikeluarkan Akta Nikah" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tglkeluaraktanikah" type="date"  format="yyyy-MM-dd" label="Tanggal Keluar Akta Nikah" placeholder="Tanggal Keluar Akta Nikah" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tglkeluaraktanikah" type="date"  format="yyyy-MM-dd" label="Tanggal Keluar Akta Nikah" :disabled="formDisabled" placeholder="Tanggal Keluar Akta Nikah" v-bind:enable-time-picker="false"/>
       </VCol>
       <!-- tutup data pasangan -->
 
       <!-- data ahli waris -->
       <VCol cols="12" md="6">
-        <VTextField v-model="ahliwaris" label="Ahli Waris" placeholder="Ahli Waris" />
+        <VTextField v-model="ahliwaris" label="Ahli Waris" :disabled="formDisabled" placeholder="Ahli Waris" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="tempatlahirahliwaris" label="Tempat Ahli Waris" placeholder="Tempat Ahli Waris" />
+        <VTextField v-model="tempatlahirahliwaris" label="Tempat Ahli Waris" :disabled="formDisabled" placeholder="Tempat Ahli Waris" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgllahir_ahliwaris" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Ahli Waris" placeholder="Tanggal Lahir Ahli Waris" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgllahir_ahliwaris" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Ahli Waris" :disabled="formDisabled" placeholder="Tanggal Lahir Ahli Waris" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="noktpahliwaris" label="No KTP Ahli Waris" placeholder="No KTP Ahli Waris" />
+        <VTextField v-model="noktpahliwaris" label="No KTP Ahli Waris" :disabled="formDisabled" placeholder="No KTP Ahli Waris" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kk_ahliwaris" label="KK Ahli Waris" placeholder="KK Ahli Waris" />
+        <VTextField v-model="kk_ahliwaris" label="KK Ahli Waris" :disabled="formDisabled" placeholder="KK Ahli Waris" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgl_ahliwaris" type="date" format="yyyy-MM-dd" label="Tanggal KK Ahli Waris" placeholder="Tanggal KK Ahli Waris" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgl_ahliwaris" type="date" format="yyyy-MM-dd" label="Tanggal KK Ahli Waris" :disabled="formDisabled" placeholder="Tanggal KK Ahli Waris" v-bind:enable-time-picker="false"/>
       </VCol>
       <!-- tutup data ahli waris -->
 
       <!-- data pembiayaan -->
       <VCol cols="12" md="6">
-        <VTextField v-model="noskpensiun" label="No. SK Pensiun" placeholder="No. SK Pensiun" />
+        <VTextField v-model="noskpensiun" label="No. SK Pensiun" :disabled="formDisabled" placeholder="No. SK Pensiun" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tanggalsk" type="date" format="yyyy-MM-dd" label="Tanggal Lahir SK" placeholder="Tanggal Lahir SK" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tanggalsk" type="date" format="yyyy-MM-dd" label="Tanggal Lahir SK" :disabled="formDisabled" placeholder="Tanggal Lahir SK" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="terbitsk" label="Terbit SK Pensiun" placeholder="Terbit SK Pensiun" />
+        <VTextField v-model="terbitsk" label="Terbit SK Pensiun" :disabled="formDisabled" placeholder="Terbit SK Pensiun" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tmtpensiun" type="date" format="yyyy-MM-dd" label="TMT SK Pensiun" placeholder="TMT SK Pensiun" v-bind:enable-time-picker="false"/>
-        <!-- <VTextField v-model="tmtpensiun" label="TMT SK Pensiun" placeholder="TMT SK Pensiun" /> -->
+        <VueDatePicker v-model="tmtpensiun" type="date" format="yyyy-MM-dd" label="TMT SK Pensiun" :disabled="formDisabled" placeholder="TMT SK Pensiun" v-bind:enable-time-picker="false"/>
+        <!-- <VTextField v-model="tmtpensiun" label="TMT SK Pensiun" :disabled="formDisabled" placeholder="TMT SK Pensiun" /> -->
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="nokarip" label="No. Karip Pensiun" placeholder="No. Karip Pensiun" />
+        <VTextField v-model="nokarip" label="No. Karip Pensiun" :disabled="formDisabled" placeholder="No. Karip Pensiun" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="npwp" label="NPWP" placeholder="NPWP" />
+        <VTextField v-model="npwp" label="NPWP" :disabled="formDisabled" placeholder="NPWP" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kdpenggunaan" label="Keperluan Penggunaan" placeholder="Keperluan Penggunaan" />
+        <VTextField v-model="kdpenggunaan" label="Keperluan Penggunaan" :disabled="formDisabled" placeholder="Keperluan Penggunaan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kdpenggunaan2" label="Keperluan Penggunaan 2" placeholder="Keperluan Penggunaan 2" />
+        <VTextField v-model="kdpenggunaan2" label="Keperluan Penggunaan 2" :disabled="formDisabled" placeholder="Keperluan Penggunaan 2" />
       </VCol>
       <!-- tutup data pembiayaan -->
 
       <!-- data pemohon pembiayaa dan referensi -->
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgllahirkarip" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Karip" placeholder="Tanggal Lahir Karip" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgllahirkarip" type="date" format="yyyy-MM-dd" label="Tanggal Lahir Karip" :disabled="formDisabled" placeholder="Tanggal Lahir Karip" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="gajisekarang" label="Gaji Sekarang" placeholder="Gaji Sekarang" />
+        <VTextField v-model="gajisekarang" label="Gaji Sekarang" :disabled="formDisabled" placeholder="Gaji Sekarang" />
       </VCol>
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="sumberdana"
-          label="Sumber Dana"
-          placeholder="Pilih Sumber Dana"
-          :items="['BPR SINAR TERANG', 'BPR PANJAWAN', 'BPR TAS', 'BANK KALSEL', 'ARM', 'KOPERASI SAM']"
-        />
+        <VTextField v-model="sumberdana" label="Sumber Dana" :disabled="formDisabled" placeholder="Sumber Dana" />
       </VCol>
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="jnspensiun"
-          label="Jenis Pensiun"
-          placeholder="Jenis Pensiun"
-          :items="['PLATINUM PLUS', 'PLATINUM', 'REGULER']"
-        />
+        <VTextField v-model="jnspensiun" label="Jenis Pensiun" :disabled="formDisabled" placeholder="Jenis Pensiun" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="statuspembiayaan" label="Status Pembiayaan" placeholder="Status Pembiayaan" />
+        <VTextField v-model="statuspembiayaan" label="Status Pembiayaan" :disabled="formDisabled" placeholder="Status Pembiayaan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="nmasuransi"
-          label="Nama Asuransi"
-          placeholder="Nama Asuransi"
-          :items="['RELIANCE', 'HEKSA', 'ABB', 'BERDIKARI']"
-        />
+        <VTextField v-model="nmasuransi" label="Nama Asuransi" :disabled="formDisabled" placeholder="Nama Asuransi" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="kreditsebelumnya" label="Kantor Bayar Lama" placeholder="Kantor Bayar Lama" />
+        <VTextField v-model="kreditsebelumnya" label="Kantor Bayar Lama" :disabled="formDisabled" placeholder="Kantor Bayar Lama" />
       </VCol>
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="instansipensiun"
-          label="Instansi Pensiun"
-          placeholder="Instansi Pensiun"
-          :items="['TASPEN', 'ASABRI']"
-        />
+        <VTextField v-model="instansipensiun" label="Instansi Pensiun" :disabled="formDisabled" placeholder="Instansi Pensiun" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="namakantorbayar" label="Kantor Bayar Baru" placeholder="Kantor Bayar Baru" />
+        <VTextField v-model="namakantorbayar" label="Kantor Bayar Baru" :disabled="formDisabled" placeholder="Kantor Bayar Baru" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="jangkawaktu" label="Jangka Waktu" placeholder="Jangka Waktu" />
+        <VTextField v-model="jangkawaktu" label="Jangka Waktu" :disabled="formDisabled" placeholder="Jangka Waktu" />
       </VCol>
       <VCol cols="12" md="6">
         <VSelect
           v-model="kaliangsuran"
           label="Kali Angsuran"
-          placeholder="Pilih Kali Angsuran"
+          :disabled="formDisabled" placeholder="Pilih Kali Angsuran"
           :items="['1', '2', '3', '4', '5']"
         />
       </VCol>
       <!-- <VCol cols="12" md="6">
-        <VTextField v-model="plafmaksimal" label="Plafond Maksimal" placeholder="Plafond Maksimal" />
+        <VTextField v-model="plafmaksimal" label="Plafond Maksimal" :disabled="formDisabled" placeholder="Plafond Maksimal" />
       </VCol> -->
       <VCol cols="12" md="6">
-        <VTextField v-model="Plafondbiaya" label="Plafond Biaya" placeholder="Masukkan Nominal Plafondbiaya" />
+        <VTextField v-model="Plafondbiaya" label="Plafond Biaya" :disabled="formDisabled" placeholder="Masukkan Nominal Plafondbiaya" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="tatalaksana" label="Tatalaksana" placeholder="Masukkan Nominal Tatalaksana" />
+        <VTextField v-model="tatalaksana" label="Tatalaksana" :disabled="formDisabled" placeholder="Masukkan Nominal Tatalaksana" />
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgltakeover" type="date" format="yyyy-MM-dd" label="Tanggal Take Over" placeholder="Tanggal Take Over" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgltakeover" type="date" format="yyyy-MM-dd" label="Tanggal Take Over" :disabled="formDisabled" placeholder="Tanggal Take Over" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VueDatePicker v-model="tgl_kuasadebet" type="date" format="yyyy-MM-dd" label="Tanggal Kuasa Debet" placeholder="Tanggal Kuasa Debet" v-bind:enable-time-picker="false"/>
+        <VueDatePicker v-model="tgl_kuasadebet" type="date" format="yyyy-MM-dd" label="Tanggal Kuasa Debet" :disabled="formDisabled" placeholder="Tanggal Kuasa Debet" v-bind:enable-time-picker="false"/>
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="pelunasanke" label="Pelunasan Ke" placeholder="Pelunasan Ke" />
+        <VTextField v-model="pelunasanke" label="Pelunasan Ke" :disabled="formDisabled" placeholder="Pelunasan Ke" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="marketing" label="Marketing" placeholder="Marketing" />
+        <VTextField v-model="marketing" label="Marketing" :disabled="formDisabled" placeholder="Marketing" />
       </VCol>
       <VCol cols="12" md="6">
-        <VFileInput @change="($event) => uploadFile($event, 'dokumen')" v-model="dokumen" label="Dokumen Berkas" placeholder="Masukkan Dokumen Berkas" />
+        <VFileInput @change="($event) => uploadFile($event, 'dokumen')" v-model="dokumen" label="Dokumen Berkas" :disabled="formDisabled" placeholder="Masukkan Dokumen Berkas" />
       </VCol>
       <VCol cols="12" md="6">
-        <VFileInput @change="($event) => uploadFile($event, 'fisiknasabah')" v-model="fisiknasabah" label="Video Fisik Nasabah" placeholder="Masukkan Video Fisik Nasabah" />
+        <VFileInput @change="($event) => uploadFile($event, 'fisiknasabah')" v-model="fisiknasabah" label="Video Fisik Nasabah" :disabled="formDisabled" placeholder="Masukkan Video Fisik Nasabah" />
       </VCol>
       <VCol cols="12" md="6">
-        <VFileInput @change="($event) => uploadFile($event, 'wawancara')" v-model="wawancara" label="Video Wawancara" placeholder="Masukkan Video Wawancara" />
+        <VFileInput @change="($event) => uploadFile($event, 'wawancara')" v-model="wawancara" label="Video Wawancara" :disabled="formDisabled" placeholder="Masukkan Video Wawancara" />
       </VCol>
 
       <!-- tutup data pemohon pembiayaa dan referensi -->
-
-      <VCol cols="12" class="d-flex gap-4">
-        <VBtn type="submit">
-          Submit
-        </VBtn>
-
-        <VBtn type="reset" color="secondary" variant="tonal">
-          Reset
-        </VBtn>
-      </VCol>
     </VRow>
   </VForm>
 </template>
