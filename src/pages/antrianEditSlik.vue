@@ -13,7 +13,7 @@ const dilanjutkan = async () => {
   try {
     const response = await api.post(`/api/permohonan/${route.params.id}/statusslik-dilanjutkan`);
     console.log('data:', response);
-    router.push({path: '/antrian-slik'});
+    router.push({path: '/antrian-hasil-slik'});
   } catch (error) {
     console.error('Error:', error);
   }
@@ -22,7 +22,7 @@ const dikembalikan = async () => {
   try {
     const response = await api.post(`/api/permohonan/${route.params.id}/statusslik-dikembalikan`);
     console.log('data:', response);
-    router.push({path: '/antrian-slik'});
+    router.push({path: '/antrian-hasil-slik'});
   } catch (error) {
     console.error('Error:', error);
   }
@@ -31,7 +31,7 @@ const ditolak = async () => {
   try {
     const response = await api.post(`/api/permohonan/${route.params.id}/statusslik-ditolak`);
     console.log('data:', response);
-    router.push({path: '/antrian-slik'});
+    router.push({path: '/antrian-hasil-slik'});
   } catch (error) {
     console.error('Error:', error);
   }
