@@ -96,6 +96,12 @@ import api from "../../../api";
   const simpananwajib = ref("");
   const potangsuran = ref("");
   const retensi = ref("");
+  const tabkop = ref("");
+  const materai = ref("");
+  const mutasi = ref("");
+  const umurthn = ref("");
+  const umurbln = ref("");
+  const umurhari = ref("");
 
 
   // function for every format number
@@ -241,9 +247,13 @@ import api from "../../../api";
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
+      umurthn.value = data.umurthn;
+      umurbln.value = data.umurbln;
+      umurhari.value = data.umurhari;
       instansipensiun.value = data.instansipensiun;
 
       // biaya biaya
+      bungaeff.value = data.bungaeff;
       Plafondbiaya.value = data.Plafondbiaya;
       tatalaksana.value = data.tatalaksana;
       potangsuran.value = data.potangsuran;
@@ -251,6 +261,11 @@ import api from "../../../api";
       byadm.value = data.byadm;
       retensi.value = data.retensi;
       byasuransi.value = data.byasuransi;
+      simpananwajib.value = data.simpananwajib;
+      bukatabungan.value = data.bukatabungan;
+      materai.value = data.materai;
+      tabkop.value = data.tabkop;
+      mutasi.value = data.mutasi;
       // tutup biaya biaya
       
       // dokumen.value = data.dokumen;
@@ -471,9 +486,7 @@ import api from "../../../api";
         <VTextField v-model="jangkawaktu" label="Jangka Waktu" :disabled="formDisabled" placeholder="Jangka Waktu" />
       </VCol>
       <VCol cols="12" md="6">
-        <VSelect
-          v-model="kaliangsuran"
-        />
+        <VTextField v-model="bungaeff" label="Bunga Eff %" :disabled="formDisabled" placeholder="Bungaeff" />
       </VCol>
       <!-- <VCol cols="12" md="6">
         <VTextField v-model="plafmaksimal" label="Plafond Maksimal" :disabled="formDisabled" placeholder="Plafond Maksimal" />
@@ -482,10 +495,34 @@ import api from "../../../api";
         <VTextField v-model="Plafondbiaya" :value="formatIDR(Plafondbiaya)" label="Plafond Biaya" :disabled="formDisabled" placeholder="Masukkan Nominal Plafondbiaya" />
       </VCol>
       <VCol cols="12" md="6">
+        <VTextField v-model="potangsuran" :value="formatIDR(potangsuran)" label="Angsuran Per Bulan" :disabled="formDisabled" placeholder="Angsuran Per Bulan" />
+      </VCol>
+      <VCol cols="12" md="6">
         <VTextField v-model="bybank" :value="formatIDR(bybank)" label="Biay Kemitraan" :disabled="formDisabled" placeholder="Biaya Kemitraan" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="byadm" :value="formatIDR(byadm)" label="Biaya Admin" :disabled="formDisabled" placeholder="Biaya Admin" />
+        <VTextField v-model="byadm" :value="formatIDR(byadm)" label="Biaya Administrasi" :disabled="formDisabled" placeholder="Biaya Admin" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="byasuransi" :value="formatIDR(byasuransi)" label="Biaya Asuransi" :disabled="formDisabled" placeholder="Biaya Asuransi" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="simpananwajib" :value="formatIDR(simpananwajib)" label="Simpanan Wajib" :disabled="formDisabled" placeholder="Biaya Asuransi" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="tabkop" :value="formatIDR(tabkop)" label="Tabungan & Koperasi" :disabled="formDisabled" placeholder="Blokir Angsuran" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="materai" :value="formatIDR(materai)" label="SKSUP & Materai" :disabled="formDisabled" placeholder="Blokir Angsuran" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="bukatabungan" :value="formatIDR(bukatabungan)" label="Buka Tabungan" :disabled="formDisabled" placeholder="Blokir Angsuran" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VSelect
+          v-model="kaliangsuran"
+          label="Pot. Angsuran dimuka"
+        />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="potangsuran" :value="formatIDR(potangsuran)" label="Potongan Angsuran" :disabled="formDisabled" placeholder="Potongan Angsuran" />
@@ -494,7 +531,7 @@ import api from "../../../api";
         <VTextField v-model="retensi" :value="formatIDR(retensi)" label="Blokir Angsuran" :disabled="formDisabled" placeholder="Blokir Angsuran" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="byasuransi" :value="formatIDR(byasuransi)" label="Biaya Asuransi" :disabled="formDisabled" placeholder="Biaya Asuransi" />
+        <VTextField v-model="mutasi" :value="formatIDR(mutasi)" label="Mutasi" :disabled="formDisabled" placeholder="Potongan Angsuran" />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="tatalaksana" :value="formatIDR(tatalaksana)" label="Tatalaksana" :disabled="formDisabled" placeholder="Masukkan Nominal Tatalaksana" />
