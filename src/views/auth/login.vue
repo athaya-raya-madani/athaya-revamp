@@ -46,18 +46,18 @@ const isPasswordVisible = ref(false);
 
 
 <template>
-  <div class="auth-wrapper d-flex align-center justify-center pa-4">
+  <div class="auth-wrapper d-flex align-center primary justify-center pa-4">
     <VRow>
       <VCol class="login-card">
             <VCard
           class="auth-card pa-4 pt-7"
-          max-width="448"
+          max-width="600"
         >
           <VCardItem class="justify-center">
             <template #prepend>
               <div class="d-flex">
                 <div
-                  class="d-flex text-primary"
+                  class="d-flex text-primary img-large"
                   v-html="logo"
                 />
               </div>
@@ -70,7 +70,7 @@ const isPasswordVisible = ref(false);
 
           <VCardText class="pt-2">
             <h5 class="text-h4 text-center mb-1">
-              Selamat Datang di Athaya Raya Madani
+              Selamat Datang di <br> Athaya Raya Madani
             </h5>
             <p class="mb-0 text-center">
               Login untuk masuk ke dashboard

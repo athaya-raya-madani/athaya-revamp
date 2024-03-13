@@ -11,7 +11,19 @@
   const fetchDataPermohonans = async () => {
     try {
       // fetch data
-      const response = await api.get('/api/permohonan');
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        // Handle case where no token is present
+        console.error('Token not found.');
+        return;
+      }
+      
+      const response = await api.get('/api/permohonancabang', {
+        headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      });
       // set response data to state "permohonans"
       permohonans.value = response.data;
     } catch (error) {
