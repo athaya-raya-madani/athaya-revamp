@@ -57,6 +57,16 @@ const uploadFile = (event) => {
 
 //method "storePost"
 const submitFile = async () => {
+  const token = localStorage.getItem('token');
+
+    if (!token) {
+      // Handle case where no token is present
+      console.error('Token not found.');
+      return;
+    }
+
+
+
     const reader = new FileReader();
     reader.readAsDataURL(dokslikojk.value);
     reader.onload = async () => {
@@ -104,7 +114,12 @@ const submitFile = async () => {
     } 
 
     //store data with API
-    const response = await api.post('/api/permohonan/store', formData, { headers: { 'Content-Type' : 'multipart/form-data'}});
+    const response = await api.post('/api/permohonan/store', formData, { 
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        'Content-Type' : 'multipart/form-data'
+    }
+    });
     console.log("Berhasil Memasukkan Data : ", response);
     console.log("File: ", dokslikojk.value);
     console.log("Tanggal Lahir: ", formattedTgllahir);

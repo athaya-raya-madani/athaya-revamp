@@ -13,24 +13,99 @@ import chart from '@images/cards/chart-success.png'
 import card from '@images/cards/credit-card-primary.png'
 import paypal from '@images/cards/paypal-error.png'
 import wallet from '@images/cards/wallet-info.png'
-const pencairan = ref('');
+const cair = ref('');
 const antrianslik = ref('');
 const antrianverifikasi = ref('');
+const pencairanvalue = ref('');
+
+function formatIDR(number, precision) {
+  // Check if the number is not empty or undefined
+  if (!number && number !== 0) return '';
+
+  // Convert the number to string
+  let strNumber = Number(number).toFixed(precision);
+
+  // Split the string into array of characters
+  let chars = strNumber.split('');
+
+  // Initialize a variable to store formatted number
+  let formattedNumber = '';
+
+  // Flag to indicate whether the decimal point is reached
+  let decimalReached = false;
+
+  // Counter to track the number of zeros after the decimal point
+  let zerosCount = 0;
+
+  // Track the position of the decimal point
+  let decimalPosition = 0;
+
+  // Iterate through each character in the array
+  for (let i = chars.length - 1; i >= 0; i--) {
+    // Check if the current character is the decimal point
+    if (chars[i] === '.') {
+      // Set flag to true indicating decimal point is reached
+      decimalReached = true;
+      // Add the decimal point to the formatted number
+      formattedNumber = '.' + formattedNumber;
+      // Store the position of the decimal point
+      decimalPosition = formattedNumber.length - 1;
+    } else {
+      // Add the current character to the formatted number
+      formattedNumber = chars[i] + formattedNumber;
+      // Increment the zeros count if decimal point is reached
+      if (decimalReached && chars[i] === '0') {
+        zerosCount++;
+      } else {
+        // Reset the zeros count if non-zero digit is encountered
+        zerosCount = 0;
+      }
+      // Add a comma after every 3 digits from the right, except for the last group of digits
+      if ((chars.length - i) % 3 === 0 && i !== 0) {
+        formattedNumber = '.' + formattedNumber;
+      }
+    }
+
+    // Remove the trailing zeros after the decimal point based on precision
+    if (decimalReached && zerosCount >= precision) {
+      formattedNumber = formattedNumber.slice(0, decimalPosition - precision);
+      zerosCount--;
+    }
+  }
+
+  // Return the formatted number with 'IDR' prefix
+  return 'Rp. ' + formattedNumber;
+}
 
 const getAntrian = async () => {
   try{
-    const response = await api.get('/api/permohonan/jumlah-antrian');
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      // Handle case where no token is present
+      console.error('Token not found.');
+      return;
+    }
+
+    const response = await api.get('/api/antrian-cabang', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     const slik = response.data.slik;
     const verifikasi = response.data.verifikasi;
-    const cair = response.data.pencairan;
+    const pencairan = response.data.pencairan;
+    const cairvalue = response.data.pencairanplafond;
 
-    pencairan.value = cair,
+    cair.value = pencairan,
     antrianslik.value = slik,
     antrianverifikasi.value = verifikasi,
-    console.log('pencairan: ', cair);
+    pencairanvalue.value = cairvalue,
+    console.log('pencairan: ', pencairan);
     console.log('antrianslik: ', slik);
     console.log('antrianverifikasi: ', verifikasi);
+    console.log('antrianverifikasi: ', cairvalue);
     // console.log('antrianslik', antiranslik);
     // console.log('antrianverifikasi', antirianverifikasi);
   } catch (error) {
@@ -64,9 +139,9 @@ onMounted(() => {
         >
           <CardStatisticsVertical
             v-bind="{
-              title: 'Total Pencairan',
+              title: 'Total Pengajuan',
               image: chart,
-              stats: pencairan,
+              stats: cair,
               change: 72.80,
             }"
           />
@@ -79,9 +154,9 @@ onMounted(() => {
         >
           <CardStatisticsVertical
             v-bind="{
-              title: 'Antiran Verifikasi',
+              title: 'Antiran Slik',
               image: wallet,
-              stats: antrianverifikasi,
+              stats: antrianslik,
               change: 28.42,
             }"
           />
@@ -114,10 +189,10 @@ onMounted(() => {
         >
           <CardStatisticsVertical
             v-bind=" {
-              title: 'Payments',
+              title: 'Total Pencairan',
               image: paypal,
-              stats: '$2,468',
-              change: -14.82,
+              stats: formatIDR(pencairanvalue),
+              change: 14.82,
             }"
           />
         </VCol>
@@ -129,9 +204,9 @@ onMounted(() => {
         >
           <CardStatisticsVertical
             v-bind="{
-              title: 'Antrian Slik',
+              title: 'Antrian Verifikasi',
               image: card,
-              stats: antrianslik,
+              stats: antrianverifikasi,
               change: 28.14,
             }"
           />

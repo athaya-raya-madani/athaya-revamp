@@ -3,7 +3,7 @@ import PermohonanCreate from '@/views/pages/form-layouts/PermohonanCreate.vue';
 import '@mdi/font/css/materialdesignicons.min.css';
 import { useRouter } from 'vue-router';
 
-const router = useRouter;
+const router = useRouter();
 const goBack = () => {
   router.go(-1);
 }

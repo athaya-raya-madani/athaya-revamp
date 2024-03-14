@@ -7,6 +7,65 @@
   // define state
   const permohonans = ref([]);
 
+  function formatIDR(number, precision) {
+  // Check if the number is not empty or undefined
+  if (!number && number !== 0) return '';
+
+  // Convert the number to string
+  let strNumber = Number(number).toFixed(precision);
+
+  // Split the string into array of characters
+  let chars = strNumber.split('');
+
+  // Initialize a variable to store formatted number
+  let formattedNumber = '';
+
+  // Flag to indicate whether the decimal point is reached
+  let decimalReached = false;
+
+  // Counter to track the number of zeros after the decimal point
+  let zerosCount = 0;
+
+  // Track the position of the decimal point
+  let decimalPosition = 0;
+
+  // Iterate through each character in the array
+  for (let i = chars.length - 1; i >= 0; i--) {
+    // Check if the current character is the decimal point
+    if (chars[i] === '.') {
+      // Set flag to true indicating decimal point is reached
+      decimalReached = true;
+      // Add the decimal point to the formatted number
+      formattedNumber = '.' + formattedNumber;
+      // Store the position of the decimal point
+      decimalPosition = formattedNumber.length - 1;
+    } else {
+      // Add the current character to the formatted number
+      formattedNumber = chars[i] + formattedNumber;
+      // Increment the zeros count if decimal point is reached
+      if (decimalReached && chars[i] === '0') {
+        zerosCount++;
+      } else {
+        // Reset the zeros count if non-zero digit is encountered
+        zerosCount = 0;
+      }
+      // Add a comma after every 3 digits from the right, except for the last group of digits
+      if ((chars.length - i) % 3 === 0 && i !== 0) {
+        formattedNumber = '.' + formattedNumber;
+      }
+    }
+
+    // Remove the trailing zeros after the decimal point based on precision
+    if (decimalReached && zerosCount >= precision) {
+      formattedNumber = formattedNumber.slice(0, decimalPosition - precision);
+      zerosCount--;
+    }
+  }
+
+  // Return the formatted number with 'IDR' prefix
+  return 'Rp. ' + formattedNumber;
+}
+
   // method fetchDatapermohonans
   const fetchDataPermohonans = async () => {
     try {
@@ -18,7 +77,7 @@
         console.error('Token not found.');
         return;
       }
-      
+
       const response = await api.get('/api/permohonancabang', {
         headers: {
         Authorization: `Bearer ${token}`,
@@ -31,31 +90,6 @@
     }
   };
 
-  // confirm delete data
-  // const confirmDelete = (id) => {
-  //   const confirmation = window.confirm('Are you sure you want to delete this item?');
-
-  //   if (confirmation) {
-  //     // User clicked OK in the confirmation dialog
-  //     deletePermohonan(id);
-  //   } else {
-  //     // User clicked Cancel in the confirmation dialog
-  //     // Handle accordingly or do nothing
-  //   }
-  // };
-//   const deletePermohonan = async (id) => {
-//   try {
-//     // Delete post with API
-//     await api.delete(`/api/permohonan/${id}/delete`);
-
-//     // Call method "fetchDataPosts"
-//     fetchDataPermohonans();
-//     console.log("Delete data berhasil ");
-//   } catch (error) {
-//     // Handle errors, you might want to log the error or show an alert to the user
-//     console.error('Error deleting permohonan:', error);
-//   }
-// };
   // run hook "onMounted"
   onMounted(() => {
     // call method "fetchDatapermohonans"
@@ -82,13 +116,19 @@
           Nama KTP
         </th>
         <th>
-          No SK Pensiun
+          No Pensiun
         </th>
         <th>
-          Tanggal Lahir
+          Pendana
         </th>
         <th>
-          No KTP
+          Produk
+        </th>
+        <th>
+          Plafond
+        </th>
+        <th>
+          Tenor
         </th>
         <th>
           Actions
@@ -112,13 +152,19 @@
           {{ permohonan.namaktp }}
         </td>
         <td class="text-center">
-          {{ permohonan.noskpensiun }}
+        {{ permohonan.nopensiun }}
         </td>
         <td class="text-center">
-          {{ permohonan.tgllahir }}
+          {{ permohonan.sumberdana }}
         </td>
         <td class="text-center">
-          {{ permohonan.noktp }}
+          {{ permohonan.jnspensiun }}
+        </td>
+        <td class="text-center">
+          {{ formatIDR(permohonan.Plafondbiaya) }}
+        </td>
+        <td class="text-center">
+          {{ permohonan.jangkawaktu }}
         </td>
         <td>
           <div class="d-flex justify-content-center">
