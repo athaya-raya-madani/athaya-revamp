@@ -1,94 +1,48 @@
 <script setup>
 import { hexToRgb } from '@layouts/utils';
-import { computed, onMounted, ref } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 import {
   useDisplay,
   useTheme,
 } from 'vuetify';
-import api from '../../api';
 
-const vuetifyTheme = useTheme();
-const display = useDisplay();
+const vuetifyTheme = useTheme()
+const display = useDisplay()
 
-const series = ref([]);
-// const balanceData = ref([]);
-
-const fetchData = async () => {
-  try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      console.error('Token not found.');
-      return;
-    }
-
-    const response = await api.get('/api/antrian-cabangs', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = response.data.pencairan;
-
-    const seriesData = [];
-    const years = new Set(); // Using a Set to store unique years
-    const month = new Set(); // Using a Set to store unique years
-
-    // Iterate over the data to collect unique years
-    data.forEach(item => {
-      years.add(item.year);
-      month.add(item.month_name);
-    });
-
-    // Iterate over unique years to create series data
-    years.forEach(year => {
-      const yearData = {
-        months: month,
-        name: year,
-        data: []
-      };
-
-      // Iterate over the data to find entries for the current year
-      data.forEach(item => {
-        if (item.year === year) {
-          yearData.data.push(parseFloat(item.total_plafond));
-        }
-      });
-
-      // Push the year data to the seriesData array
-      seriesData.push(yearData);
-    });
-
-    series.value = seriesData;  
-    const monthNames = series.value.map(item => Array.from(item.months));
-    // const monthnames = Array.from(monthNames[0]);
-    console.log('monthnames : ', monthNames[0]);
-    console.log('months : ', month);
-    console.log('months : ', years);
-
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-};
-
-
-onMounted(() => {
-  fetchData();
-});
-
-
+const series = [
+  {
+    name: `${ new Date().getFullYear() - 1 }`,
+    data: [
+      18,
+      7,
+      15,
+      29,
+      18,
+      12,
+      9,
+    ],
+  },
+  {
+    name: `${ new Date().getFullYear() - 2 }`,
+    data: [
+      -13,
+      -18,
+      -9,
+      -14,
+      -5,
+      -17,
+      -15,
+    ],
+  },
+]
 
 const chartOptions = computed(() => {
-  const currentTheme = vuetifyTheme.current.value.colors;
-  const variableTheme = vuetifyTheme.current.value.variables;
-  const disabledTextColor = `rgba(${ hexToRgb(String(currentTheme['on-surface'])) },${ variableTheme['disabled-opacity'] })`;
-  const primaryTextColor = `rgba(${ hexToRgb(String(currentTheme['on-surface'])) },${ variableTheme['high-emphasis-opacity'] })`;
-  const borderColor = `rgba(${ hexToRgb(String(variableTheme['border-color'])) },${ variableTheme['border-opacity'] })`;
-
-  const monthNames = series.value.map(item => Array.from(item.months));
-  // const monthnames = Array.from(monthNames[0]);
-
+  const currentTheme = vuetifyTheme.current.value.colors
+  const variableTheme = vuetifyTheme.current.value.variables
+  const disabledTextColor = `rgba(${ hexToRgb(String(currentTheme['on-surface'])) },${ variableTheme['disabled-opacity'] })`
+  const primaryTextColor = `rgba(${ hexToRgb(String(currentTheme['on-surface'])) },${ variableTheme['high-emphasis-opacity'] })`
+  const borderColor = `rgba(${ hexToRgb(String(variableTheme['border-color'])) },${ variableTheme['border-opacity'] })`
+  
   return {
     bar: {
       chart: {
@@ -103,10 +57,11 @@ const chartOptions = computed(() => {
         colors: [currentTheme.surface],
       },
       colors: [
-        `rgba(${ hexToRgb(String(currentTheme.primary)) }, 1)`
+        `rgba(${ hexToRgb(String(currentTheme.primary)) }, 1)`,
+        `rgba(${ hexToRgb(String(currentTheme.info)) }, 1)`,
       ],
       legend: {
-        offsetX: -12,
+        offsetX: -10,
         position: 'top',
         fontSize: '14px',
         horizontalAlign: 'left',
@@ -134,17 +89,24 @@ const chartOptions = computed(() => {
       plotOptions: {
         bar: {
           borderRadius: 10,
-          columnWidth: '15%', // Adjusted columnWidth for reduced gap and starting from left
+          columnWidth: '30%',
           endingShape: 'rounded',
           startingShape: 'rounded',
         },
       },
       xaxis: {
-        type: 'category', // Menggunakan jenis kategori agar bulan ditampilkan sesuai urutan
         axisTicks: { show: false },
         crosshairs: { opacity: 0 },
         axisBorder: { show: false },
-        categories: monthNames[0],
+        categories: [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+        ],
         labels: {
           style: {
             fontSize: '14px',
@@ -208,9 +170,8 @@ const chartOptions = computed(() => {
       },
       plotOptions: {
         radialBar: {
-          // Adjusting startAngle and endAngle for alignment with the left side
-          endAngle: 180,
-          startAngle: 0,
+          endAngle: 150,
+          startAngle: -140,
           hollow: { size: '55%' },
           track: { background: 'transparent' },
           dataLabels: {
@@ -250,8 +211,8 @@ const chartOptions = computed(() => {
         },
       ],
     },
-  };
-});
+  }
+})
 
 const balanceData = [
   {
@@ -270,7 +231,7 @@ const balanceData = [
 </script>
 
 <template>
-   <VCard>
+  <VCard>
     <VRow no-gutters>
       <VCol
         cols="12"
@@ -314,11 +275,11 @@ const balanceData = [
             <VMenu activator="parent">
               <VList>
                 <VListItem
-                  v-for="(item, index) in balanceData"
+                  v-for="(item, index) in ['2023', '2022', '2021']"
                   :key="index"
-                  :value="item.year"
+                  :value="item"
                 >
-                  <VListItemTitle>{{ item.year }}</VListItemTitle>
+                  <VListItemTitle>{{ item }}</VListItemTitle>
                 </VListItem>
               </VList>
             </VMenu>
@@ -336,7 +297,7 @@ const balanceData = [
           <p class="font-weight-medium text-high-emphasis mb-7">
             62% Company Growth
           </p>
-          <div class="d-flex align-center justify-center gap-x-8 gap-y-4 ">
+          <div class="d-flex align-center justify-center gap-x-8 gap-y-4 flex-wrap">
             <div
               v-for="data in balanceData"
               :key="data.year"
