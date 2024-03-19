@@ -12,7 +12,66 @@ const vuetifyTheme = useTheme();
 const display = useDisplay();
 
 const series = ref([]);
-// const balanceData = ref([]);
+const balanceData = ref([]);
+
+function formatIDR(number, precision) {
+  // Check if the number is not empty or undefined
+  if (!number && number !== 0) return '';
+
+  // Convert the number to string
+  let strNumber = Number(number).toFixed(precision);
+
+  // Split the string into array of characters
+  let chars = strNumber.split('');
+
+  // Initialize a variable to store formatted number
+  let formattedNumber = '';
+
+  // Flag to indicate whether the decimal point is reached
+  let decimalReached = false;
+
+  // Counter to track the number of zeros after the decimal point
+  let zerosCount = 0;
+
+  // Track the position of the decimal point
+  let decimalPosition = 0;
+
+  // Iterate through each character in the array
+  for (let i = chars.length - 1; i >= 0; i--) {
+    // Check if the current character is the decimal point
+    if (chars[i] === '.') {
+      // Set flag to true indicating decimal point is reached
+      decimalReached = true;
+      // Add the decimal point to the formatted number
+      formattedNumber = '.' + formattedNumber;
+      // Store the position of the decimal point
+      decimalPosition = formattedNumber.length - 1;
+    } else {
+      // Add the current character to the formatted number
+      formattedNumber = chars[i] + formattedNumber;
+      // Increment the zeros count if decimal point is reached
+      if (decimalReached && chars[i] === '0') {
+        zerosCount++;
+      } else {
+        // Reset the zeros count if non-zero digit is encountered
+        zerosCount = 0;
+      }
+      // Add a comma after every 3 digits from the right, except for the last group of digits
+      if ((chars.length - i) % 3 === 0 && i !== 0) {
+        formattedNumber = '.' + formattedNumber;
+      }
+    }
+
+    // Remove the trailing zeros after the decimal point based on precision
+    if (decimalReached && zerosCount >= precision) {
+      formattedNumber = formattedNumber.slice(0, decimalPosition - precision);
+      zerosCount--;
+    }
+  }
+
+  // Return the formatted number with 'IDR' prefix
+  return 'Rp. ' + formattedNumber;
+}
 
 const fetchData = async () => {
   try {
@@ -30,12 +89,14 @@ const fetchData = async () => {
     });
 
     const data = response.data.pencairan;
+    const noa = response.data.noa[0];
+    const totalplafond = response.data.totalplafond;
 
     const seriesData = [];
     const years = new Set(); // Using a Set to store unique years
-    const month = new Set(); // Using a Set to store unique years
+    const month = new Set(); // Using a Set to store unique months
 
-    // Iterate over the data to collect unique years
+    // Iterate over the data to collect unique years and months
     data.forEach(item => {
       years.add(item.year);
       month.add(item.month_name);
@@ -60,17 +121,28 @@ const fetchData = async () => {
       seriesData.push(yearData);
     });
 
-    series.value = seriesData;  
+    series.value = seriesData;
+
+    const noas = noa.noa; 
+
     const monthNames = series.value.map(item => Array.from(item.months));
+
+    // balanced data
+    balanceData.value = [
+      { icon: 'bx-dollar', amount: `${formatIDR(totalplafond)}`, status: `Total Plafond`, color: 'primary' },
+      { icon: 'bx-wallet', amount: `${noas}`, status: `NOA`, color: 'info' }
+    ];
+
     // const monthnames = Array.from(monthNames[0]);
     console.log('monthnames : ', monthNames[0]);
     console.log('months : ', month);
-    console.log('months : ', years);
+    console.log('noa : ', noas);
 
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 };
+
 
 
 onMounted(() => {
@@ -253,20 +325,14 @@ const chartOptions = computed(() => {
   };
 });
 
-const balanceData = [
+
+const moreList = [
   {
-    icon: 'bx-dollar',
-    amount: '$32.5k',
-    year: '2023',
-    color: 'primary',
-  },
-  {
-    icon: 'bx-wallet',
-    amount: '$41.2k',
-    year: '2022',
-    color: 'info',
-  },
-]
+    title: 'Download Grafik',
+    value: 'downloadChart',
+  }
+];
+
 </script>
 
 <template>
@@ -283,7 +349,7 @@ const balanceData = [
 
           <template #append>
             <div class="me-n3">
-              <MoreBtn />
+              <MoreBtn :menu-list="moreList" />
             </div>
           </template>
         </VCardItem>
@@ -351,7 +417,7 @@ const balanceData = [
               />
 
               <div class="text-start">
-                <span class="text-sm"> {{ data.year }}</span>
+                <span class="text-sm"> {{ data.status }}</span>
                 <h6 class="text-base font-weight-medium">
                   {{ data.amount }}
                 </h6>
