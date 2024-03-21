@@ -129,8 +129,8 @@ const fetchData = async () => {
 
     // balanced data
     balanceData.value = [
-      { icon: 'bx-dollar', amount: `${formatIDR(totalplafond)}`, status: `Total Plafond`, color: 'primary' },
-      { icon: 'bx-wallet', amount: `${noas}`, status: `NOA`, color: 'info' }
+      { icon: 'bx-dollar', amount: `${formatIDR(totalplafond)}`, status: `Total Plafond`, year: '2023', color: 'primary' },
+      { icon: 'bx-wallet', amount: `${noas}`, status: `NOA`, year: '2022', color: 'info' }
     ];
 
     // const monthnames = Array.from(monthNames[0]);
@@ -326,12 +326,6 @@ const chartOptions = computed(() => {
 });
 
 
-const moreList = [
-  {
-    title: 'Download Grafik',
-    value: 'downloadChart',
-  }
-];
 
 </script>
 
@@ -349,7 +343,7 @@ const moreList = [
 
           <template #append>
             <div class="me-n3">
-              <MoreBtn :menu-list="moreList" />
+              <MoreBtn/>
             </div>
           </template>
         </VCardItem>

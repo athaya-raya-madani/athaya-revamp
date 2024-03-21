@@ -1,54 +1,102 @@
 <script setup>
-import chartInfo from '@images/cards/chart-info.png'
-import creditCardSuccess from '@images/cards/credit-card-success.png'
-import creditCardWarning from '@images/cards/credit-card-warning.png'
-import paypalError from '@images/cards/paypal-error.png'
-import walletPrimary from '@images/cards/wallet-primary.png'
+import { ref } from 'vue';
+import api from '../../api';
 
-const transactions = [
-  {
-    amount: +82.6,
-    paymentMethod: 'Paypal',
-    description: 'Send money',
-    icon: paypalError,
-    color: 'error',
-  },
-  {
-    paymentMethod: 'Wallet',
-    amount: +270.69,
-    description: 'Mac\'D',
-    icon: walletPrimary,
-    color: 'primary',
-  },
-  {
-    amount: +637.91,
-    paymentMethod: 'Transfer',
-    description: 'Refund',
-    icon: chartInfo,
-    color: 'info',
-  },
-  {
-    paymentMethod: 'Credit Card',
-    amount: -838.71,
-    description: 'Ordered Food',
-    icon: creditCardSuccess,
-    color: 'success',
-  },
-  {
-    paymentMethod: 'Wallet',
-    amount: +203.33,
-    description: 'Starbucks',
-    icon: walletPrimary,
-    color: 'primary',
-  },
-  {
-    paymentMethod: 'Mastercard',
-    amount: -92.45,
-    description: 'Ordered Food',
-    icon: creditCardWarning,
-    color: 'warning',
-  },
-]
+
+const namaktp = ref("");
+const Plafondbiaya = ref("");
+const sumberdana = ref("");
+const data = ref([]);
+
+
+
+const fetchDataTransaksi = async () => {
+    try {
+      // fetch data
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        // Handle case where no token is present
+        console.error('Token not found.');
+        return;
+      }
+
+      const response = await api.get('/api/antrian-cabang', {
+        headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      });
+
+      data.value = response.data.transaksi;
+      console.log('data', data.value);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  // run hook "onMounted"
+  onMounted(() => {
+    fetchDataTransaksi();
+  });
+
+  function formatIDR(number, precision) {
+  // Check if the number is not empty or undefined
+  if (!number && number !== 0) return '';
+
+  // Convert the number to string
+  let strNumber = Number(number).toFixed(precision);
+
+  // Split the string into array of characters
+  let chars = strNumber.split('');
+
+  // Initialize a variable to store formatted number
+  let formattedNumber = '';
+
+  // Flag to indicate whether the decimal point is reached
+  let decimalReached = false;
+
+  // Counter to track the number of zeros after the decimal point
+  let zerosCount = 0;
+
+  // Track the position of the decimal point
+  let decimalPosition = 0;
+
+  // Iterate through each character in the array
+  for (let i = chars.length - 1; i >= 0; i--) {
+    // Check if the current character is the decimal point
+    if (chars[i] === '.') {
+      // Set flag to true indicating decimal point is reached
+      decimalReached = true;
+      // Add the decimal point to the formatted number
+      formattedNumber = '.' + formattedNumber;
+      // Store the position of the decimal point
+      decimalPosition = formattedNumber.length - 1;
+    } else {
+      // Add the current character to the formatted number
+      formattedNumber = chars[i] + formattedNumber;
+      // Increment the zeros count if decimal point is reached
+      if (decimalReached && chars[i] === '0') {
+        zerosCount++;
+      } else {
+        // Reset the zeros count if non-zero digit is encountered
+        zerosCount = 0;
+      }
+      // Add a comma after every 3 digits from the right, except for the last group of digits
+      if ((chars.length - i) % 3 === 0 && i !== 0) {
+        formattedNumber = '.' + formattedNumber;
+      }
+    }
+
+    // Remove the trailing zeros after the decimal point based on precision
+    if (decimalReached && zerosCount >= precision) {
+      formattedNumber = formattedNumber.slice(0, decimalPosition - precision);
+      zerosCount--;
+    }
+  }
+
+  // Return the formatted number with 'IDR' prefix
+  return 'Rp. ' + formattedNumber;
+}
 
 const moreList = [
   {
@@ -77,10 +125,10 @@ const moreList = [
     <VCardText>
       <VList class="card-list">
         <VListItem
-          v-for="item in transactions"
-          :key="item.paymentMethod"
+          v-for="(transaksi, index) in data"
+          :key="index"
         >
-          <template #prepend>
+          <!-- <template #prepend>
             <VAvatar
               rounded
               variant="tonal"
@@ -88,19 +136,20 @@ const moreList = [
               :image="item.icon"
               class="me-3"
             />
-          </template>
+          </template> -->
 
-          <VListItemSubtitle class="text-disabled mb-1">
-            {{ item.paymentMethod }}
-          </VListItemSubtitle>
           <VListItemTitle>
-            {{ item.description }}
+            {{ transaksi.namaktp }}
           </VListItemTitle>
+          <VListItemSubtitle class="text-disabled text-warning">
+            {{ transaksi.sumberdana }}
+          </VListItemSubtitle>
 
           <template #append>
             <VListItemAction>
-              <span class="me-1">{{ item.amount > 0 ? `+$${Math.abs(item.amount)}` : `-$${Math.abs(item.amount)}` }}</span>
-              <span class="text-disabled">USD</span>
+              <VChip class="hasil-plafond me-1 text-success">
+                {{ formatIDR(transaksi.Plafondbiaya)}}
+              </VChip>
             </VListItemAction>
           </template>
         </VListItem>
@@ -112,5 +161,8 @@ const moreList = [
 <style lang="scss" scoped>
   .card-list {
     --v-card-list-gap: 1.6rem;
+  }
+  .hasil-plafond{
+    font-size: 17px !important;
   }
 </style>

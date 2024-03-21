@@ -525,10 +525,10 @@ import api from "../../../api";
         />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="potangsuran" :value="formatIDR(potangsuran)" label="Potongan Angsuran" :disabled="formDisabled" placeholder="Potongan Angsuran" />
+        <VTextField v-model="potangsuran" :value="formatIDR(potangsuran)" label="Blokir Angsuran" :disabled="formDisabled" placeholder="Potongan Angsuran" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="retensi" :value="formatIDR(retensi)" label="Blokir Angsuran" :disabled="formDisabled" placeholder="Blokir Angsuran" />
+        <VTextField v-model="retensi" :value="formatIDR(retensi)" label="Potongan Angsuran" :disabled="formDisabled" placeholder="Blokir Angsuran" />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="mutasi" :value="formatIDR(mutasi)" label="Mutasi" :disabled="formDisabled" placeholder="Potongan Angsuran" />
