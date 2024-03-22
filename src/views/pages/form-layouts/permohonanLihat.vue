@@ -80,14 +80,15 @@ import api from "../../../api";
   const jangkawaktu = ref("");
   const jwmaksimal = ref("");
   const bungaeff = ref("");
-  const plafmaksimal = ref("");
+  const terimabersih = ref("");
   const Plafondbiaya = ref("");
   const tgltakeover = ref("");
   const tgl_kuasadebet = ref("");
   const pelunasanke = ref("");
   const marketing = ref("");
   const instansipensiun = ref("");
-  const kaliangsuran = ref(0);
+  const kaliangsuran = ref("");
+  const potpelunasan = ref("");
   const tatalaksana = ref("");
   const bybank = ref("");
   const byadm = ref("");
@@ -95,6 +96,7 @@ import api from "../../../api";
   const bukatabungan = ref("");
   const simpananwajib = ref("");
   const potangsuran = ref("");
+  const angsuran = ref("");
   const retensi = ref("");
   const tabkop = ref("");
   const materai = ref("");
@@ -257,6 +259,8 @@ import api from "../../../api";
       Plafondbiaya.value = data.Plafondbiaya;
       tatalaksana.value = data.tatalaksana;
       potangsuran.value = data.potangsuran;
+      potpelunasan.value = data.potpelunasan;
+      angsuran.value = data.angsuran;
       bybank.value = data.bybank;
       byadm.value = data.byadm;
       retensi.value = data.retensi;
@@ -266,12 +270,20 @@ import api from "../../../api";
       materai.value = data.materai;
       tabkop.value = data.tabkop;
       mutasi.value = data.mutasi;
-      // tutup biaya biaya
-      
-      // dokumen.value = data.dokumen;
-      // fisiknasabah.value = data.fisiknasabah;
-      // wawancara.value = data.wawancara;
-      // tutup data pemohon pembiayaan da referensi
+      kaliangsuran.value = data.kaliangsuran;
+      const totalExpenses = parseFloat(data.byadm) + parseFloat(data.byasuransi) + parseFloat(data.bybank) + parseFloat(data.potpelunasan) + parseFloat(data.tatalaksana) + parseFloat(data.potangsuran) + parseFloat(data.tabkop) + parseFloat(data.materai) + parseFloat(data.mutasi) + parseFloat(data.bukatabungan) + parseFloat(data.angsuran);
+
+      // Check if totalExpenses is a valid number
+      if (!isNaN(totalExpenses)) {
+        terimabersih.value = Plafondbiaya.value - totalExpenses;
+      } else {
+        // Handle the case where totalExpenses is NaN
+        console.error("One of the expenses is not a valid number.");
+        // Assign a default value or handle the error according to your application logic
+        terimabersih.value = 0;
+      }
+    // tutup biaya biaya
+
 
       console.log('Fetched data berhasil');
     } catch (error) {
@@ -495,7 +507,7 @@ import api from "../../../api";
         <VTextField v-model="Plafondbiaya" :value="formatIDR(Plafondbiaya)" label="Plafond Biaya" :disabled="formDisabled" placeholder="Masukkan Nominal Plafondbiaya" />
       </VCol>
       <VCol cols="12" md="6">
-        <VTextField v-model="potangsuran" :value="formatIDR(potangsuran)" label="Angsuran Per Bulan" :disabled="formDisabled" placeholder="Angsuran Per Bulan" />
+        <VTextField v-model="angsuran" :value="formatIDR(angsuran)" label="Angsuran Per Bulan" :disabled="formDisabled" placeholder="Angsuran Per Bulan" />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="bybank" :value="formatIDR(bybank)" label="Biay Kemitraan" :disabled="formDisabled" placeholder="Biaya Kemitraan" />
@@ -521,11 +533,16 @@ import api from "../../../api";
       <VCol cols="12" md="6">
         <VSelect
           v-model="kaliangsuran"
-          label="Pot. Angsuran dimuka"
+          label="Kali Angsuran"
+          placeholder="Pilih Kali Angsuran"
+          :items="kaliangsuran"
         />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="potangsuran" :value="formatIDR(potangsuran)" label="Blokir Angsuran" :disabled="formDisabled" placeholder="Potongan Angsuran" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="potpelunasan" :value="formatIDR(potpelunasan)" label="Pot Pelunasan" :disabled="formDisabled" placeholder="Potongan Angsuran" />
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="retensi" :value="formatIDR(retensi)" label="Potongan Angsuran" :disabled="formDisabled" placeholder="Blokir Angsuran" />
@@ -547,6 +564,9 @@ import api from "../../../api";
       </VCol>
       <VCol cols="12" md="6">
         <VTextField v-model="marketing" label="Marketing" :disabled="formDisabled" placeholder="Marketing" />
+      </VCol>
+      <VCol cols="12" md="6">
+        <VTextField v-model="terimabersih" :value="formatIDR(terimabersih)" label="Penerimaan Bersih" :disabled="formDisabled" placeholder="Masukkan Penerimaan Bersih" />
       </VCol>
       <VCol cols="12" md="6">
         <VFileInput @change="($event) => uploadFile($event, 'dokumen')" v-model="dokumen" label="Dokumen Berkas" :disabled="formDisabled" placeholder="Masukkan Dokumen Berkas" />
