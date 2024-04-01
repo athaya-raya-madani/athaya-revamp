@@ -86,6 +86,7 @@ import api from "../../../api";
   const tgl_kuasadebet = ref("");
   const pelunasanke = ref("");
   const marketing = ref("");
+  const keteranganbi = ref("");
   const dokumen = ref(null);
   const fisiknasabah = ref(null);
   const wawancara = ref(null);
@@ -176,6 +177,7 @@ import api from "../../../api";
       tgl_kuasadebet.value = new Date(data.tgl_kuasadebet);
       pelunasanke.value = data.pelunasanke;
       marketing.value = data.marketing;
+      keteranganbi.value = data.keteranganbi;
       // dokumen.value = data.dokumen;
       // fisiknasabah.value = data.fisiknasabah;
       // wawancara.value = data.wawancara;
@@ -342,12 +344,36 @@ import api from "../../../api";
   //   }
   // };
   // const checkbox = ref(false)
+  const updateketerangan = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("keteranganbi", keteranganbi.value);
 
+      const pemohon = await api.post(`/api/permohonan/${route.params.id}/keterangan-statusbi`, formData);
+      console.log('Updated Data:', pemohon.data);
+
+      // router.push({
+      //   path: '/antrian-slik-bprtas'
+      // });
+    } catch (error) {
+      errors.value = error.response ?.data || 'An error occurred while updating data.';
+      console.error('Error updating data:', error);
+    }
+  };
 </script>
 
 
 <template>
-  <VForm >
+  <VForm  @submit.prevent="updateketerangan()">
+    <VRow>
+      <VCol cols="12" md="6" class="ml-n3">
+        <VTextarea v-model="keteranganbi" label="Keterangan" placeholder="Keterangan" />
+      </VCol>
+    </VRow>
+    <VBtn type="submit" class="mb-5 mt-3">
+      Submit
+    </VBtn>
+
     <VRow>
       <!-- data identitas  -->
       <VCol cols="12" md="6">
