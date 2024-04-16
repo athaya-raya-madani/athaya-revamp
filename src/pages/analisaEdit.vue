@@ -161,13 +161,14 @@ const ditolak = async () => {
       </VCol>
     </VRow>
     <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <video id="modalVideo" controls></video>
-      </div>
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <video id="modalVideo" controls></video>
     </div>
+  </div>
+
   </div>
 </template>
 <style lang="scss">
-@use "@core/scss/template/pages/dashboard.scss";
+@use "@core/scss/template/pages/analisa-kredit.scss";
 </style>

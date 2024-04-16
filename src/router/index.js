@@ -64,6 +64,15 @@ const router = createRouter({
           },
         },
         {
+          path: 'hasil-checking-slik',
+          name: 'hasil-checking-slik',
+          component: () => import('../pages/hasil-analisa.vue'),
+          meta: {
+            requiresAuth: true,
+            requiresOtorizaion: true,
+          },
+        },
+        {
           path: 'antrian-slik/:id/view',
           name: 'antrianslik.edit',
           component: () => import('../pages/antrianSlik.vue'),
@@ -108,6 +117,9 @@ const router = createRouter({
             requiresAuth: true,
           },
         },
+        // tutup antrian bank bpr
+
+
         {
           path: 'permohonans',
           name: 'permohonans',

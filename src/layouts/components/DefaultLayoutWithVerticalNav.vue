@@ -114,6 +114,13 @@ onMounted(() => {
       />
       <VerticalNavLink
         :item="{
+          title: 'Hasil Analisa Bank Slik OJK',
+          icon: 'mdi-account-cog-outline',
+          to: '/hasil-checking-slik',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
           title: 'Status Permohonan Peminjaman',
           icon: 'mdi-account-cog-outline',
           to: '/status-peminjaman',
