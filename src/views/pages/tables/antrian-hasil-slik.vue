@@ -35,7 +35,7 @@
         <th>Nama KTP</th>
         <th>No SK Pensiun</th>
         <th>Tanggal Lahir</th>
-        <th>No KTP</th>
+        <th>keterangan</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -50,7 +50,7 @@
         <td class="text-center">{{ verifikasi.namaktp }}</td>
         <td class="text-center">{{ verifikasi.noskpensiun }}</td>
         <td class="text-center">{{ verifikasi.tgllahir }}</td>
-        <td class="text-center">{{ verifikasi.noktp }}</td>
+        <td class="text-center">{{ verifikasi.keteranganbi }}</td>
         <td>
           <div class="d-flex justify-center">
             <VBtn :to="{ name: 'hasilslik.edit', params: { id: verifikasi.id } }" class="v-btn btn-sm bg-warning rounded-sm shadow border-0 me-2">
