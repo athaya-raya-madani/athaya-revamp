@@ -10,6 +10,11 @@
   justify-content: center;
   padding: 5.5em 0 !important;
 }
+@media (max-width: 767px) {
+  .login-card {
+    margin: 0px 0px 0px 360px !important;
+  }
+}
 .login-banner-wrapper > .v-card-item > .v-card-item__prepend > .login-banner > .image > svg{
   padding: 0;
   margin: -39px -99px -187px -4px;
