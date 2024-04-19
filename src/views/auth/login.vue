@@ -46,6 +46,8 @@ const isPasswordVisible = ref(false);
 
 
 <template>
+  <meta name="viewport" content="width=device-width, initial-scale=0.4, maximum-scale=1.0, user-scalable=no">
+
   <div class="auth-wrapper d-flex align-center primary justify-center pa-4">
     <VRow>
       <VCol class="login-card">
